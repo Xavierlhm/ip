@@ -30,6 +30,52 @@ public class Tracker {
                         }
                     }
                     System.out.println(HORIZONTAL_LINE);
+                } else if (input.startsWith("todo")) {
+                    String description = input.substring(5).trim();
+                    Task task = new Todo(description);
+                    toDoList.add(task);
+                    System.out.println(HORIZONTAL_LINE);
+                    System.out.println("     Got it. I've added this task:");
+                    System.out.println("       " + task);
+                    System.out.println("     Now you have " + toDoList.size() + " tasks in the list.");
+                    System.out.println(HORIZONTAL_LINE);
+                } else if (input.startsWith("deadline")) {
+                    String[] parts = input.substring(9).split(" /by ");
+                    if (parts.length == 2) {
+                        Task task = new Deadline(parts[0].trim(), parts[1].trim());
+                        toDoList.add(task);
+                        System.out.println(HORIZONTAL_LINE);
+                        System.out.println("     Got it. I've added this task:");
+                        System.out.println("       " + task);
+                        System.out.println("     Now you have " + toDoList.size() + " tasks in the list.");
+                        System.out.println(HORIZONTAL_LINE);
+                    } else {
+                        System.out.println(HORIZONTAL_LINE);
+                        System.out.println("    Invalid deadline format. Use: deadline <description> /by <time>");
+                        System.out.println(HORIZONTAL_LINE);
+                    }
+                } else if (input.startsWith("event ")) {
+                    String[] parts = input.substring(6).split(" /from ");
+                    if (parts.length == 2) {
+                        String[] times = parts[1].split(" /to ");
+                        if (times.length == 2) {
+                            Task task = new Event(parts[0].trim(), times[0].trim(), times[1].trim());
+                            toDoList.add(task);
+                            System.out.println(HORIZONTAL_LINE);
+                            System.out.println("     Got it. I've added this task:");
+                            System.out.println("       " + task);
+                            System.out.println("     Now you have " + toDoList.size() + " tasks in the list.");
+                            System.out.println(HORIZONTAL_LINE);
+                        } else {
+                            System.out.println(HORIZONTAL_LINE);
+                            System.out.println("    Invalid event format. Use: event <description> /from <start> /to <end>");
+                            System.out.println(HORIZONTAL_LINE);
+                        }
+                    } else {
+                        System.out.println(HORIZONTAL_LINE);
+                        System.out.println("    Invalid event format. Use: event <description> /from <start> /to <end>");
+                        System.out.println(HORIZONTAL_LINE);
+                    }
                 } else if (input.startsWith("mark ")) {
                     try {
                         int taskIndex = Integer.parseInt(input.split(" ")[1]) - 1;

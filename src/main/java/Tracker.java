@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Tracker {
     private static final String HORIZONTAL_LINE = "    ____________________________________________________________";
@@ -12,15 +13,29 @@ public class Tracker {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        ArrayList<String> toDoList = new ArrayList<>();
         greet();
 
         String input;
         do {
             input = scanner.nextLine();
             if (!input.equalsIgnoreCase("bye")) {
-                System.out.println(HORIZONTAL_LINE);
-                System.out.println("    " + input);
-                System.out.println(HORIZONTAL_LINE);
+                if (input.equalsIgnoreCase("list")) {
+                    System.out.println(HORIZONTAL_LINE);
+                    if (toDoList.isEmpty()) {
+                        System.out.println("    To Do List is Empty.");
+                    } else {
+                        for (int i = 0; i < toDoList.size(); i++) {
+                            System.out.println("    " + (i + 1) + ". " + toDoList.get(i));
+                        }
+                    }
+                    System.out.println(HORIZONTAL_LINE);
+                } else {
+                    toDoList.add(input);
+                    System.out.println(HORIZONTAL_LINE);
+                    System.out.println("     added: " + input);
+                    System.out.println(HORIZONTAL_LINE);
+                }
             }
         } while (!input.equalsIgnoreCase("bye"));
 

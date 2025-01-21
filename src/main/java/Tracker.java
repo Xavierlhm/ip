@@ -92,6 +92,23 @@ public class Tracker {
         }
     }
 
+    private static void handleDelete(String input, ArrayList<Task> toDoList) throws TrackerException {
+        try {
+            int index = Integer.parseInt(input.split(" ")[1]) - 1;
+            if (index < 0 || index >= toDoList.size()) {
+                throw new TrackerException("Task number out of range. Please check your list.");
+            }
+            Task task = toDoList.remove(index);
+            System.out.println(HORIZONTAL_LINE);
+            System.out.println("    Noted. I've removed this task:");
+            System.out.println("      " + task);
+            System.out.println("     Now you have " + toDoList.size() + " tasks in the list.");
+            System.out.println(HORIZONTAL_LINE);
+        } catch (Exception e) {
+            throw new TrackerException("Invalid delete command. Use: delete <task_number>");
+        }
+    }
+
     private static void printTaskAdded(Task task, int size) {
         System.out.println(HORIZONTAL_LINE);
         System.out.println("     Got it. I've added this task:");
@@ -123,6 +140,8 @@ public class Tracker {
                     handleMark(input, toDoList);
                 } else if (input.startsWith("unmark")) {
                     handleUnmark(input, toDoList);
+                } else if (input.startsWith("delete")) {
+                    handleDelete(input, toDoList);
                 } else {
                     throw new TrackerException("I'm sorry, but I don't know what that means. Please try again!");
                 }

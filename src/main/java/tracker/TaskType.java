@@ -1,3 +1,5 @@
+package tracker;
+
 public enum TaskType {
     TODO("T"),
     DEADLINE("D"),
@@ -19,6 +21,6 @@ public enum TaskType {
                 return type;
             }
         }
-        throw new IllegalArgumentException("Invalid TaskType symbol: " + symbol);
+        throw new IllegalArgumentException("Invalid tracker.TaskType symbol: " + symbol);
     }
 }

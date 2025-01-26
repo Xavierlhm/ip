@@ -1,3 +1,5 @@
+package tracker;
+
 public class Tracker {
     private Ui ui;
     private Storage storage;
@@ -32,6 +34,6 @@ public class Tracker {
     }
 
     public static void main(String[] args) {
-        new Tracker(System.getProperty("user.home") + "/Documents/Tracker.txt").run();
+        new Tracker(System.getProperty("user.home") + "/Documents/tracker.Tracker.txt").run();
     }
 }

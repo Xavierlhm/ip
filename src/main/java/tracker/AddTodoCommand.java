@@ -1,3 +1,5 @@
+package tracker;
+
 public class AddTodoCommand extends Command {
     private String input;
 

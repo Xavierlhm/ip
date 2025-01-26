@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.io.IOException;
 
 public class Tracker {
     private static final String HORIZONTAL_LINE = "    ____________________________________________________________";
@@ -31,6 +32,7 @@ public class Tracker {
         }
         Task task = new Todo(description);
         toDoList.add(task);
+        saveTasks(toDoList);
         printTaskAdded(task, toDoList.size());
     }
 
@@ -41,6 +43,7 @@ public class Tracker {
         }
         Task task = new Deadline(parts[0].trim(), parts[1].trim());
         toDoList.add(task);
+        saveTasks(toDoList);
         printTaskAdded(task, toDoList.size());
     }
 
@@ -55,6 +58,7 @@ public class Tracker {
         }
         Task task = new Event(parts[0].trim(), times[0].trim(), times[1].trim());
         toDoList.add(task);
+        saveTasks(toDoList);
         printTaskAdded(task, toDoList.size());
     }
 
@@ -66,6 +70,7 @@ public class Tracker {
             }
             Task task = toDoList.get(index);
             task.markAsDone();
+            saveTasks(toDoList);
             System.out.println(HORIZONTAL_LINE);
             System.out.println("    Nice! I've marked this task as done:");
             System.out.println("      " + task);
@@ -83,6 +88,7 @@ public class Tracker {
             }
             Task task = toDoList.get(index);
             task.unmarkAsDone();
+            saveTasks(toDoList);
             System.out.println(HORIZONTAL_LINE);
             System.out.println("    OK, I've marked this task as not done yet:");
             System.out.println("      " + task);
@@ -99,6 +105,7 @@ public class Tracker {
                 throw new TrackerException("Task number out of range. Please check your list.");
             }
             Task task = toDoList.remove(index);
+            saveTasks(toDoList);
             System.out.println(HORIZONTAL_LINE);
             System.out.println("    Noted. I've removed this task:");
             System.out.println("      " + task);
@@ -117,9 +124,29 @@ public class Tracker {
         System.out.println(HORIZONTAL_LINE);
     }
 
+    private static void saveTasks(ArrayList<Task> toDoList) {
+        try {
+            TaskManager.saveTasks(toDoList);
+        } catch (IOException e) {
+            System.out.println(HORIZONTAL_LINE);
+            System.out.println("    Error saving tasks: " + e.getMessage());
+            System.out.println(HORIZONTAL_LINE);
+        }
+    }
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        ArrayList<Task> toDoList = new ArrayList<>();
+        ArrayList<Task> toDoList;
+
+        try {
+            toDoList = TaskManager.loadTasks();
+        } catch (IOException e) {
+            System.out.println(HORIZONTAL_LINE);
+            System.out.println("    Error loading tasks. Starting with an empty list.");
+            System.out.println(HORIZONTAL_LINE);
+            toDoList = new ArrayList<>();
+        }
+
         greet();
 
         String input;

@@ -1,3 +1,5 @@
+package tracker;
+
 import java.util.Scanner;
 
 public class Ui {
@@ -9,7 +11,7 @@ public class Ui {
     }
 
     public void greet() {
-        String message = "    Hello! I'm Tracker\n    What can I do for you?";
+        String message = "    Hello! I'm tracker.Tracker\n    What can I do for you?";
         System.out.println(HORIZONTAL_LINE);
         System.out.println(message);
         System.out.println(HORIZONTAL_LINE);

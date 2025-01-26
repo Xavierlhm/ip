@@ -1,3 +1,5 @@
+package tracker;
+
 public class AddDeadlineCommand extends Command {
     private String input;
 

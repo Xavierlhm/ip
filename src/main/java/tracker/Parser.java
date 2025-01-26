@@ -1,3 +1,5 @@
+package tracker;
+
 public class Parser {
     public static Command parse(String input) throws TrackerException {
         if (input.startsWith("todo")) {

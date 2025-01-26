@@ -1,3 +1,5 @@
+package tracker;
+
 public class DeleteCommand extends Command {
     private int taskIndex;
 

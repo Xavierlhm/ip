@@ -1,3 +1,5 @@
+package tracker;
+
 public class AddEventCommand extends Command {
     private String input;
     

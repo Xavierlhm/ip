@@ -1,19 +1,21 @@
-public class UnmarkCommand extends Command {
+package tracker;
+
+public class MarkCommand extends Command {
     private int taskIndex;
 
-    public UnmarkCommand(String input) throws TrackerException {
+    public MarkCommand(String input) throws TrackerException {
         try {
-            this.taskIndex = Integer.parseInt(input.split(" ")[1]) - 1;
+            this.taskIndex = Integer.parseInt(input.split(" ")[1]) -1;
         } catch (Exception e) {
-            throw new TrackerException("Invalid unmark command. Use: unmark <task number>");
+            throw new TrackerException("Invalid mark command. User mark <task number>");
         }
     }
 
     @Override
     public boolean execute(TaskList taskList, Ui ui, Storage storage) throws TrackerException {
         Task task = taskList.getTask(taskIndex);
-        task.unmarkAsDone();
-        ui.message("    OK, I've marked this task as not done yet:\n      " + task);
+        task.markAsDone();
+        ui.message("    Nice! I've marked this task as done:\n      " + task);
 
         try {
             storage.saveTasks(taskList.getTasks());

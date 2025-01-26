@@ -12,4 +12,13 @@ public enum TaskType {
     public String getTaskSymbol() {
         return taskSymbol;
     }
+
+    public static TaskType symbolValue(String symbol) {
+        for (TaskType type : values()) {
+            if (type.taskSymbol.equals(symbol)) {
+                return type;
+            }
+        }
+        throw new IllegalArgumentException("Invalid TaskType symbol: " + symbol);
+    }
 }

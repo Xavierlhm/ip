@@ -39,12 +39,17 @@ public class Tracker {
     private static void handleDeadline(String input, ArrayList<Task> toDoList) throws TrackerException {
         String[] parts = input.substring(8).split(" /by ");
         if (parts.length < 2 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
-            throw new TrackerException("Invalid deadline format. Use: deadline <description> /by <time>");
+            throw new TrackerException("Invalid deadline format. Use: deadline <description> /by <yyyy-MM-dd HHmm>");
         }
-        Task task = new Deadline(parts[0].trim(), parts[1].trim());
-        toDoList.add(task);
-        saveTasks(toDoList);
-        printTaskAdded(task, toDoList.size());
+
+        try {
+            Task task = new Deadline(parts[0].trim(), parts[1].trim());
+            toDoList.add(task);
+            saveTasks(toDoList);
+            printTaskAdded(task, toDoList.size());
+        } catch (Exception e) {
+            throw new TrackerException("Invalid date format. Please use yyyy-MM-dd HHmm (e.g., 2019-12-02 1800).");
+        }
     }
 
     private static void handleEvent(String input, ArrayList<Task> toDoList) throws TrackerException {
@@ -56,10 +61,15 @@ public class Tracker {
         if (times.length < 2 || times[0].trim().isEmpty() || times[1].trim().isEmpty()) {
             throw new TrackerException("Invalid event format. Use: event <description> /from <start> /to <end>");
         }
-        Task task = new Event(parts[0].trim(), times[0].trim(), times[1].trim());
-        toDoList.add(task);
-        saveTasks(toDoList);
-        printTaskAdded(task, toDoList.size());
+
+        try {
+            Task task = new Event(parts[0].trim(), times[0].trim(), times[1].trim());
+            toDoList.add(task);
+            saveTasks(toDoList);
+            printTaskAdded(task, toDoList.size());
+        } catch (Exception e) {
+            throw new TrackerException("Invalid date format. Please use yyyy-MM-dd HHmm (e.g., 2019-12-02 1800).");
+        }
     }
 
     private static void handleMark(String input, ArrayList<Task> toDoList) throws TrackerException {

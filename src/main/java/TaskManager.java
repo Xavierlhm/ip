@@ -1,6 +1,7 @@
 import java.io.*;
 import java.io.IOException;
 import java.nio.file.*;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class TaskManager {
@@ -23,9 +24,10 @@ public class TaskManager {
         sb.append(task.description);
 
         if (task instanceof Deadline) {
-            sb.append(" | ").append(((Deadline) task).by);
+            sb.append(" | ").append(((Deadline) task).by.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm")));
         } else if (task instanceof Event) {
-            sb.append(" | ").append(((Event) task).from).append(" | ").append(((Event) task).to);
+            sb.append(" | ").append(((Event) task).from.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"))).
+                    append(" | ").append(((Event) task).to.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm")));
         }
 
         return sb.toString();

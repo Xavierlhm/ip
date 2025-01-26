@@ -10,6 +10,7 @@ public class TaskManager {
 
     private static void checkDirectoryExists() throws IOException {
         Path directory = FILE_PATH.getParent();
+        
         if (!Files.exists(directory)) {
             Files.createDirectories(directory);
         }

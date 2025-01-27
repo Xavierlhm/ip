@@ -1,12 +1,24 @@
 package tracker;
 
+/**
+ * Filters a deadline task type and attempts to add it if there is no error.
+ */
 public class AddDeadlineCommand extends Command {
     private String input;
 
+    /**
+     * @param input
+     */
     public AddDeadlineCommand(String input) {
         this.input = input;
     }
 
+    /**
+     * @param taskList
+     * @param ui
+     * @param storage
+     * @return
+     */
     @Override
     public boolean execute(TaskList taskList, Ui ui, Storage storage) {
         String[] parts = input.substring(8).split(" /by ");

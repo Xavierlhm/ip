@@ -1,12 +1,25 @@
 package tracker;
 
+/**
+ * Filters a to do task type and attempts to add it if there is no error.
+ */
 public class AddTodoCommand extends Command {
     private String input;
 
+    /**
+     * @param input
+     */
     public AddTodoCommand(String input) {
         this.input = input;
     }
 
+    /**
+     * @param taskList
+     * @param ui
+     * @param storage
+     * @return
+     * @throws TrackerException
+     */
     @Override
     public boolean execute(TaskList taskList, Ui ui, Storage storage) throws TrackerException {
         String description = input.substring(4).trim();

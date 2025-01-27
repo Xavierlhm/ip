@@ -1,6 +1,15 @@
 package tracker;
 
+/**
+ * Filters the list command and lists the task.
+ */
 public class ListCommand extends Command {
+    /**
+     * @param taskList
+     * @param ui
+     * @param storage
+     * @return
+     */
     @Override
     public boolean execute(TaskList taskList, Ui ui, Storage storage) {
         if (taskList.size() == 0) {

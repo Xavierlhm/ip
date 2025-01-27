@@ -1,7 +1,7 @@
 package tracker;
 
 /**
- * Filters a deadline task type and attempts to add it if there is no error.
+ * Filters deadline task type and attempts to add it if there is no error.
  */
 public class AddDeadlineCommand extends Command {
     private String input;

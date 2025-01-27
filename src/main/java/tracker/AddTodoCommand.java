@@ -1,7 +1,7 @@
 package tracker;
 
 /**
- * Filters a to do task type and attempts to add it if there is no error.
+ * Filters to do task type and attempts to add it if there is no error.
  */
 public class AddTodoCommand extends Command {
     private String input;

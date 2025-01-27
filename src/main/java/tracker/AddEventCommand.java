@@ -1,7 +1,7 @@
 package tracker;
 
 /**
- * Filters a event task type and attempts to add it if there is no error.
+ * Filters event task type and attempts to add it if there is no error.
  */
 public class AddEventCommand extends Command {
     private String input;

@@ -1,8 +1,15 @@
 package tracker;
 
+/**
+ * Filters the delete command and attempts to remove the task if there is no error.
+ */
 public class DeleteCommand extends Command {
     private int taskIndex;
 
+    /**
+     * @param input
+     * @throws TrackerException
+     */
     public DeleteCommand(String input) throws TrackerException {
         try {
             this.taskIndex = Integer.parseInt(input.split(" ")[1]) - 1;
@@ -11,6 +18,13 @@ public class DeleteCommand extends Command {
         }
     }
 
+    /**
+     * @param taskList
+     * @param ui
+     * @param storage
+     * @return
+     * @throws TrackerException
+     */
     @Override
     public boolean execute(TaskList taskList, Ui ui, Storage storage) throws TrackerException {
         Task task = taskList.removeTask(taskIndex);

@@ -1,12 +1,24 @@
 package tracker;
 
+/**
+ * Filters a event task type and attempts to add it if there is no error.
+ */
 public class AddEventCommand extends Command {
     private String input;
-    
+
+    /**
+     * @param input
+     */
     public AddEventCommand(String input) {
         this.input = input;
     }
 
+    /**
+     * @param taskList
+     * @param ui
+     * @param storage
+     * @return
+     */
     @Override
     public boolean execute(TaskList taskList, Ui ui, Storage storage) {
         String[] parts = input.substring(5).split(" /from ");

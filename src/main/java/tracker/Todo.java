@@ -1,5 +1,8 @@
 package tracker;
 
+/**
+ * Responsible for saving the to do task.
+ */
 public class Todo extends Task {
     public Todo(String description) {
         super(description, TaskType.TODO);

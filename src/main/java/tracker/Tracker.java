@@ -1,10 +1,16 @@
 package tracker;
 
+/**
+ * The main program implements an application that helps the user keep track of tasks.
+ */
 public class Tracker {
     private Ui ui;
     private Storage storage;
     private TaskList taskList;
 
+    /**
+     * @param filePath
+     */
     public Tracker(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
@@ -16,6 +22,9 @@ public class Tracker {
         }
     }
 
+    /**
+     *
+     */
     public void run() {
         ui.greet();
         boolean isRunning = true;
@@ -33,6 +42,9 @@ public class Tracker {
         ui.goodBye();
     }
 
+    /**
+     * @param args
+     */
     public static void main(String[] args) {
         new Tracker(System.getProperty("user.home") + "/Documents/tracker.Tracker.txt").run();
     }

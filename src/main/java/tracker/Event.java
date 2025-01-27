@@ -4,12 +4,20 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+/**
+ * Checks if the input is valid before saving the event task.
+ */
 public class Event extends Task {
     protected LocalDateTime from;
     protected LocalDateTime to;
     private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
     private static final DateTimeFormatter OUTPUT_FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy, h:mma");
 
+    /**
+     * @param description
+     * @param from
+     * @param to
+     */
     public Event(String description, String from, String to) {
         super(description, TaskType.EVENT);
         try {
@@ -20,6 +28,9 @@ public class Event extends Task {
         }
     }
 
+    /**
+     * @return string output
+     */
     @Override
     public String saveFormat() {
         return super.toString() + " (from: " + from.format(OUTPUT_FORMATTER) + " to: " + to.format(OUTPUT_FORMATTER) + ")";

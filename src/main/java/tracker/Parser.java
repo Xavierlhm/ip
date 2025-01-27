@@ -1,6 +1,14 @@
 package tracker;
 
+/**
+ * Filters the command type before proceeding to the actual command.
+ */
 public class Parser {
+    /**
+     * @param input
+     * @return
+     * @throws TrackerException
+     */
     public static Command parse(String input) throws TrackerException {
         if (input.startsWith("todo")) {
             return new AddTodoCommand(input);

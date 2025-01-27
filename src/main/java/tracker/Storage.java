@@ -26,6 +26,7 @@ public class Storage {
      */
     private void checkDirectoryExists() throws IOException {
         Path directory = filePath.getParent();
+
         if (!Files.exists(directory)) {
             Files.createDirectories(directory);
         }
@@ -37,12 +38,14 @@ public class Storage {
      */
     public ArrayList<Task> loadTasks() throws IOException {
         ArrayList<Task> tasks = new ArrayList<>();
+
         if (!Files.exists(filePath)) {
             return tasks;
         }
 
         try (BufferedReader reader = Files.newBufferedReader(filePath)) {
             String line;
+
             while ((line = reader.readLine()) != null) {
                 tasks.add(Task.loadFormat(line));
             }
@@ -57,6 +60,7 @@ public class Storage {
      */
     public void saveTasks(ArrayList<Task> tasks) throws IOException {
         checkDirectoryExists();
+
         try (BufferedWriter writer = Files.newBufferedWriter(filePath)) {
             for (Task task : tasks) {
                 writer.write(task.saveFormat());

@@ -16,6 +16,7 @@ public class ListCommand extends Command {
             ui.message("    Your to-do list is currently empty.");
         } else {
             StringBuilder message = new StringBuilder("    Here are the tasks in your list:");
+
             for (int i = 0; i < taskList.size(); i++) {
                 message.append("\n    ").append(i + 1).append(". ").append(taskList.getTasks().get(i));
             }

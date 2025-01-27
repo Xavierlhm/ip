@@ -1,14 +1,16 @@
 package tracker;
 
 /**
- * Filters the unmark command and attempts to unmark the task if there is no error.
+ * Handles the "unmark" command to mark a task as not done.
  */
 public class UnmarkCommand extends Command {
     private int taskIndex;
 
     /**
-     * @param input
-     * @throws TrackerException
+     * Constructs an UnmarkCommand with the specified input.
+     *
+     * @param input The user input containing the task index to unmark.
+     * @throws TrackerException If the input format is invalid.
      */
     public UnmarkCommand(String input) throws TrackerException {
         try {
@@ -19,11 +21,13 @@ public class UnmarkCommand extends Command {
     }
 
     /**
-     * @param taskList
-     * @param ui
-     * @param storage
-     * @return
-     * @throws TrackerException
+     * Executes the command to mark a task as not done.
+     *
+     * @param taskList The task list containing the task to be unmarked.
+     * @param ui       The user interface to display messages.
+     * @param storage  The storage to save the updated task list.
+     * @return true to continue program execution.
+     * @throws TrackerException If the task index is invalid.
      */
     @Override
     public boolean execute(TaskList taskList, Ui ui, Storage storage) throws TrackerException {

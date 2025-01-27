@@ -1,14 +1,17 @@
 package tracker;
 
 /**
- * Filters the delete command and attempts to remove the task if there is no error.
+ * Handles the deletion of a task from the task list.
+ * Parses the user input, validates the task index, and removes the task.
  */
 public class DeleteCommand extends Command {
     private int taskIndex;
 
     /**
-     * @param input
-     * @throws TrackerException
+     * Constructs a DeleteCommand with the specified input.
+     *
+     * @param input The user input containing the task index to delete.
+     * @throws TrackerException If the input format is invalid.
      */
     public DeleteCommand(String input) throws TrackerException {
         try {
@@ -19,11 +22,14 @@ public class DeleteCommand extends Command {
     }
 
     /**
-     * @param taskList
-     * @param ui
-     * @param storage
-     * @return
-     * @throws TrackerException
+     * Executes the command to delete a task.
+     * Validates the task index and removes the task from the task list.
+     *
+     * @param taskList The task list from which the task will be deleted.
+     * @param ui       The UI to display messages to the user.
+     * @param storage  The storage to save the updated task list.
+     * @return true to continue program execution.
+     * @throws TrackerException If the task index is invalid.
      */
     @Override
     public boolean execute(TaskList taskList, Ui ui, Storage storage) throws TrackerException {

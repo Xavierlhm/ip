@@ -9,20 +9,24 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 /**
- * Responsible for saving and load the task list file from the hard disk.
+ * Handles the saving and loading of tasks to and from a file.
  */
 public class Storage {
     private Path filePath;
 
     /**
-     * @param filePath
+     * Constructs a Storage instance with the specified file path.
+     *
+     * @param filePath The path to the file where tasks will be stored.
      */
     public Storage(String filePath) {
         this.filePath = Paths.get(filePath);
     }
 
     /**
-     * @throws IOException
+     * Ensures that the directory for the file exists, creating it if necessary.
+     *
+     * @throws IOException If an error occurs while creating the directory.
      */
     private void checkDirectoryExists() throws IOException {
         Path directory = filePath.getParent();
@@ -33,8 +37,10 @@ public class Storage {
     }
 
     /**
-     * @return
-     * @throws IOException
+     * Loads tasks from the file.
+     *
+     * @return A list of tasks loaded from the file.
+     * @throws IOException If an error occurs while reading the file.
      */
     public ArrayList<Task> loadTasks() throws IOException {
         ArrayList<Task> tasks = new ArrayList<>();
@@ -55,8 +61,10 @@ public class Storage {
     }
 
     /**
-     * @param tasks
-     * @throws IOException
+     * Saves tasks to the file.
+     *
+     * @param tasks The list of tasks to be saved.
+     * @throws IOException If an error occurs while writing to the file.
      */
     public void saveTasks(ArrayList<Task> tasks) throws IOException {
         checkDirectoryExists();

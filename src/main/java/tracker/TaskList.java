@@ -3,36 +3,42 @@ package tracker;
 import java.util.ArrayList;
 
 /**
- * Stores the tasks into an arraylist for further actions.
+ * Manages a list of tasks.
  */
 public class TaskList {
     private ArrayList<Task> tasks;
 
     /**
-     *
+     * Constructs an empty TaskList.
      */
     public TaskList() {
         tasks = new ArrayList<>();
     }
 
     /**
-     * @param tasks
+     * Constructs a TaskList with the specified list of tasks.
+     *
+     * @param tasks The initial list of tasks.
      */
     public TaskList(ArrayList<Task> tasks) {
         this.tasks = tasks;
     }
 
     /**
-     * @param task
+     * Adds a task to the list.
+     *
+     * @param task The task to be added.
      */
     public void addTask(Task task) {
         tasks.add(task);
     }
 
     /**
-     * @param index
-     * @return
-     * @throws TrackerException
+     * Removes a task from the list by index.
+     *
+     * @param index The index of the task to be removed.
+     * @return The removed task.
+     * @throws TrackerException If the index is out of range.
      */
     public Task removeTask(int index) throws TrackerException {
         if (index < 0 || index >= tasks.size()) {
@@ -43,9 +49,11 @@ public class TaskList {
     }
 
     /**
-     * @param index
-     * @return
-     * @throws TrackerException
+     * Retrieves a task from the list by index.
+     *
+     * @param index The index of the task to be retrieved.
+     * @return The task at the specified index.
+     * @throws TrackerException If the index is out of range.
      */
     public Task getTask(int index) throws TrackerException {
         if (index < 0 || index >= tasks.size()) {
@@ -56,14 +64,18 @@ public class TaskList {
     }
 
     /**
-     * @return tasks
+     * Retrieves the list of tasks.
+     *
+     * @return The list of tasks.
      */
     public ArrayList<Task> getTasks() {
         return tasks;
     }
 
     /**
-     * @return task size
+     * Retrieves the number of tasks in the list.
+     *
+     * @return The size of the task list.
      */
     public int size() {
         return tasks.size();

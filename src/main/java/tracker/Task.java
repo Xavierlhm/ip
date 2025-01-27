@@ -1,7 +1,7 @@
 package tracker;
 
 /**
- * Responsible for task related actions.
+ * Represents a generic task with a description and a completion status.
  */
 public abstract class Task {
     protected String description;
@@ -9,8 +9,10 @@ public abstract class Task {
     protected TaskType taskType;
 
     /**
-     * @param description
-     * @param taskType
+     * Constructs a Task with the specified description and type.
+     *
+     * @param description The description of the task.
+     * @param taskType    The type of the task.
      */
     public Task(String description, TaskType taskType) {
         this.description = description;
@@ -19,35 +21,41 @@ public abstract class Task {
     }
 
     /**
-     * @return
+     * Gets the status of the task as a string.
+     *
+     * @return "X" if the task is done, otherwise " ".
      */
     public String getStatus() {
         return (isDone ? "X" : " ");
     }
 
     /**
-     *
+     * Marks the task as done.
      */
     public void markAsDone() {
         this.isDone = true;
     }
 
     /**
-     *
+     * Marks the task as not done.
      */
     public void unmarkAsDone() {
         this.isDone = false;
     }
 
     /**
-     * @return
+     * Returns a formatted string for saving the task to a file.
+     *
+     * @return The string representation of the task for storage.
      */
     public abstract String saveFormat();
 
     /**
-     * @param line
-     * @return
-     * @throws IllegalArgumentException
+     * Loads a task from a formatted string.
+     *
+     * @param line The formatted string representing a task.
+     * @return The Task object created from the string.
+     * @throws IllegalArgumentException If the string format is invalid.
      */
     public static Task loadFormat(String line) throws IllegalArgumentException {
         String[] parts = line.split(" \\| ");
@@ -85,7 +93,9 @@ public abstract class Task {
     }
 
     /**
-     * @return string output
+     * Returns a string representation of the task.
+     *
+     * @return The formatted string representation of the task.
      */
     @Override
     public String toString() {

@@ -1,23 +1,29 @@
 package tracker;
 
 /**
- * Filters event task type and attempts to add it if there is no error.
+ * Handles the addition of a new event task.
+ * Parses the user input, validates the format, and adds the task to the task list.
  */
 public class AddEventCommand extends Command {
     private String input;
 
     /**
-     * @param input
+     * Constructs an AddEventCommand with the specified input.
+     *
+     * @param input The user input containing the event task details.
      */
     public AddEventCommand(String input) {
         this.input = input;
     }
 
     /**
-     * @param taskList
-     * @param ui
-     * @param storage
-     * @return
+     * Executes the command to add an event task.
+     * Validates the input format and adds the task to the task list.
+     *
+     * @param taskList The task list to add the task to.
+     * @param ui       The UI to display messages to the user.
+     * @param storage  The storage to save the updated task list.
+     * @return true to continue program execution.
      */
     @Override
     public boolean execute(TaskList taskList, Ui ui, Storage storage) {

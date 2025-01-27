@@ -5,7 +5,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 /**
- * Checks if the input is valid before saving the deadline task.
+ * Represents a task with a deadline.
+ * Stores the description and the due date of the task.
  */
 public class Deadline extends Task {
     protected LocalDateTime by;
@@ -13,8 +14,11 @@ public class Deadline extends Task {
     private static final DateTimeFormatter FORMATTER_OUTPUT = DateTimeFormatter.ofPattern("MMM dd yyyy, h:mma");
 
     /**
-     * @param description
-     * @param by
+     * Constructs a Deadline task with the given description and due date.
+     *
+     * @param description The description of the task.
+     * @param by          The due date in the format "yyyy-MM-dd HHmm".
+     * @throws IllegalArgumentException If the date format is invalid.
      */
     public Deadline(String description, String by) {
         super(description, TaskType.DEADLINE);
@@ -26,7 +30,9 @@ public class Deadline extends Task {
     }
 
     /**
-     * @return string output
+     * Returns the string representation of the task for saving.
+     *
+     * @return A formatted string containing the task details.
      */
     @Override
     public String saveFormat() {

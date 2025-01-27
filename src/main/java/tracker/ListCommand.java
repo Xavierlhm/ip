@@ -1,14 +1,16 @@
 package tracker;
 
 /**
- * Filters the list command and lists the task.
+ * Handles the "list" command to display all tasks in the tracker.
  */
 public class ListCommand extends Command {
     /**
-     * @param taskList
-     * @param ui
-     * @param storage
-     * @return
+     * Executes the command to list all tasks in the task list.
+     *
+     * @param taskList The task list containing the tasks to be displayed.
+     * @param ui       The user interface to display the tasks.
+     * @param storage  The storage (not used in this command).
+     * @return true to continue program execution.
      */
     @Override
     public boolean execute(TaskList taskList, Ui ui, Storage storage) {

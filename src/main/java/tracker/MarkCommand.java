@@ -1,14 +1,16 @@
 package tracker;
 
 /**
- * Filters the mark command and attempts to mark the task if there is no error.
+ * Handles the "mark" command to mark a task as done.
  */
 public class MarkCommand extends Command {
     private int taskIndex;
 
     /**
-     * @param input
-     * @throws TrackerException
+     * Constructs a MarkCommand with the specified input.
+     *
+     * @param input The user input containing the task index to mark.
+     * @throws TrackerException If the input format is invalid.
      */
     public MarkCommand(String input) throws TrackerException {
         try {
@@ -19,11 +21,13 @@ public class MarkCommand extends Command {
     }
 
     /**
-     * @param taskList
-     * @param ui
-     * @param storage
-     * @return
-     * @throws TrackerException
+     * Executes the command to mark a task as done.
+     *
+     * @param taskList The task list containing the task to be marked.
+     * @param ui       The user interface to display messages.
+     * @param storage  The storage to save the updated task list.
+     * @return true to continue program execution.
+     * @throws TrackerException If the task index is invalid.
      */
     @Override
     public boolean execute(TaskList taskList, Ui ui, Storage storage) throws TrackerException {

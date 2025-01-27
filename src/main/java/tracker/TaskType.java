@@ -1,7 +1,7 @@
 package tracker;
 
 /**
- * Enum for the different task types.
+ * Represents the type of a task.
  */
 public enum TaskType {
     TODO("T"),
@@ -11,22 +11,29 @@ public enum TaskType {
     private final String taskSymbol;
 
     /**
-     * @param taskSymbol
+     * Constructs a TaskType with the specified symbol.
+     *
+     * @param taskSymbol The symbol representing the task type.
      */
     TaskType(String taskSymbol) {
         this.taskSymbol = taskSymbol;
     }
 
     /**
-     * @return task symbol
+     * Retrieves the symbol for the task type.
+     *
+     * @return The symbol of the task type.
      */
     public String getTaskSymbol() {
         return taskSymbol;
     }
 
     /**
-     * @param symbol
-     * @return
+     * Retrieves the TaskType for the specified symbol.
+     *
+     * @param symbol The symbol representing the task type.
+     * @return The TaskType corresponding to the symbol.
+     * @throws IllegalArgumentException If the symbol is invalid.
      */
     public static TaskType symbolValue(String symbol) {
         for (TaskType type : values()) {

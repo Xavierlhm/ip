@@ -1,13 +1,15 @@
 package tracker;
 
 /**
- * Filters the command type before proceeding to the actual command.
+ * Parses user input to determine the appropriate command to execute.
  */
 public class Parser {
     /**
-     * @param input
-     * @return
-     * @throws TrackerException
+     * Parses the user input and returns the corresponding Command object.
+     *
+     * @param input The user input.
+     * @return The appropriate Command object for the input.
+     * @throws TrackerException If the command type is invalid.
      */
     public static Command parse(String input) throws TrackerException {
         if (input.startsWith("todo")) {
@@ -26,6 +28,8 @@ public class Parser {
             return new ListCommand();
         } else if (input.equalsIgnoreCase("bye")) {
             return new ExitCommand();
+        } else if (input.startsWith("find")) {
+            return new FindCommand(input);
         } else {
             throw new TrackerException("I'm sorry, but I don't know what that means.");
         }

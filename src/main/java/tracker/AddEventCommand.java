@@ -42,8 +42,8 @@ public class AddEventCommand extends Command {
         try {
             Task task = new Event(parts[0].trim(), times[0].trim(), times[1].trim());
             taskList.addTask(task);
-            ui.message("     Got it. I've added this task:\n       " + task +
-                    "\n     Now you have " + taskList.size() + " tasks in the list.");
+            ui.message("     Got it. I've added this task:\n       "
+                    + task + "\n     Now you have " + taskList.size() + " tasks in the list.");
             storage.saveTasks(taskList.getTasks());
         } catch (IllegalArgumentException e) {
             ui.error(e.getMessage());

@@ -34,8 +34,8 @@ public class DeleteCommand extends Command {
     @Override
     public boolean execute(TaskList taskList, Ui ui, Storage storage) throws TrackerException {
         Task task = taskList.removeTask(taskIndex);
-        ui.message("    Noted. I've removed this task:\n      " + task +
-                "\n     Now you have " + taskList.size() + " tasks in the list.");
+        ui.message("    Noted. I've removed this task:\n      "
+                + task + "\n     Now you have " + taskList.size() + " tasks in the list.");
 
         try {
             storage.saveTasks(taskList.getTasks());

@@ -36,8 +36,8 @@ public class AddDeadlineCommand extends Command {
         try {
             Task task = new Deadline(parts[0].trim(), parts[1].trim());
             taskList.addTask(task);
-            ui.message("     Got it. I've added this task:\n       " + task +
-                    "\n     Now you have " + taskList.size() + " tasks in the list.");
+            ui.message("     Got it. I've added this task:\n       "
+                    + task + "\n     Now you have " + taskList.size() + " tasks in the list.");
             storage.saveTasks(taskList.getTasks());
         } catch (IllegalArgumentException e) {
             ui.error(e.getMessage());

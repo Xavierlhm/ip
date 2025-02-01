@@ -14,7 +14,7 @@ public class MarkCommand extends Command {
      */
     public MarkCommand(String input) throws TrackerException {
         try {
-            this.taskIndex = Integer.parseInt(input.split(" ")[1]) -1;
+            this.taskIndex = Integer.parseInt(input.split(" ")[1]) - 1;
         } catch (Exception e) {
             throw new TrackerException("Invalid mark command. User mark <task number>");
         }

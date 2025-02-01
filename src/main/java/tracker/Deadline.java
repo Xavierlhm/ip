@@ -9,9 +9,9 @@ import java.time.format.DateTimeParseException;
  * Stores the description and the due date of the task.
  */
 public class Deadline extends Task {
-    protected LocalDateTime by;
     private static final DateTimeFormatter FORMATTER_INPUT = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
     private static final DateTimeFormatter FORMATTER_OUTPUT = DateTimeFormatter.ofPattern("MMM dd yyyy, h:mma");
+    protected LocalDateTime by;
 
     /**
      * Constructs a Deadline task with the given description and due date.
@@ -25,7 +25,8 @@ public class Deadline extends Task {
         try {
             this.by = LocalDateTime.parse(by, FORMATTER_INPUT);
         } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("Invalid date format. Please use yyyy-MM-dd HHmm (e.g., 2019-12-02 1800).");
+            throw new IllegalArgumentException("Invalid date format. "
+                    + "Please use yyyy-MM-dd HHmm (e.g., 2019-12-02 1800).");
         }
     }
 

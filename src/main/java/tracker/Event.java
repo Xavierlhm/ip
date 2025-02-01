@@ -9,10 +9,10 @@ import java.time.format.DateTimeParseException;
  * Stores the description, start time, and end time of the event.
  */
 public class Event extends Task {
-    protected LocalDateTime from;
-    protected LocalDateTime to;
     private static final DateTimeFormatter FORMATTER_INPUT = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
     private static final DateTimeFormatter FORMATTER_OUTPUT = DateTimeFormatter.ofPattern("MMM dd yyyy, h:mma");
+    protected LocalDateTime from;
+    protected LocalDateTime to;
 
     /**
      * Constructs an Event task with the given description, start time, and end time.
@@ -28,7 +28,8 @@ public class Event extends Task {
             this.from = LocalDateTime.parse(from, FORMATTER_INPUT);
             this.to = LocalDateTime.parse(to, FORMATTER_INPUT);
         } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("Invalid date format. Please use yyyy-MM-dd HHmm (e.g., 2019-12-02 1400).");
+            throw new IllegalArgumentException("Invalid date format. "
+                    + "Please use yyyy-MM-dd HHmm (e.g., 2019-12-02 1400).");
         }
     }
 
@@ -39,6 +40,7 @@ public class Event extends Task {
      */
     @Override
     public String saveFormat() {
-        return super.toString() + " (from: " + from.format(FORMATTER_OUTPUT) + " to: " + to.format(FORMATTER_OUTPUT) + ")";
+        return super.toString() + " (from: " + from.format(FORMATTER_OUTPUT) + " to: "
+                + to.format(FORMATTER_OUTPUT) + ")";
     }
 }

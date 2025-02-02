@@ -25,7 +25,7 @@ public class Deadline extends Task {
         try {
             this.by = LocalDateTime.parse(by, FORMATTER_INPUT);
         } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("Invalid date format. "
+            throw new IllegalArgumentException("Error: Invalid date format. "
                     + "Please use yyyy-MM-dd HHmm (e.g., 2019-12-02 1800).");
         }
     }
@@ -37,6 +37,17 @@ public class Deadline extends Task {
      */
     @Override
     public String saveFormat() {
+        return taskType.getTaskSymbol() + " | " + getStatus() + " | " + description
+                + " | by: " + by.format(FORMATTER_INPUT);
+    }
+
+    /**
+     * Returns a string representation of the deadline task.
+     *
+     * @return The formatted string representation of the deadline task.
+     */
+    @Override
+    public String toString() {
         return super.toString() + " (by: " + by.format(FORMATTER_OUTPUT) + ")";
     }
 }

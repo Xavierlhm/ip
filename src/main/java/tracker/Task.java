@@ -65,7 +65,7 @@ public abstract class Task {
 
         switch (taskType) {
         case DEADLINE:
-            Deadline deadlineTask = new Deadline(description, parts[3]);
+            Deadline deadlineTask = new Deadline(description, parts[3].substring(4));
 
             if (isDone) {
                 deadlineTask.markAsDone();
@@ -73,7 +73,7 @@ public abstract class Task {
 
             return deadlineTask;
         case EVENT:
-            Event eventTask = new Event(description, parts[3], parts[4]);
+            Event eventTask = new Event(description, parts[3].substring(6), parts[4].substring(4));
 
             if (isDone) {
                 eventTask.markAsDone();

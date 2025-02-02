@@ -5,20 +5,16 @@ package tracker;
  * Parses the user input, validates the task index, and removes the task.
  */
 public class DeleteCommand extends Command {
+    private String input;
     private int taskIndex;
 
     /**
      * Constructs a DeleteCommand with the specified input.
      *
      * @param input The user input containing the task index to delete.
-     * @throws TrackerException If the input format is invalid.
      */
-    public DeleteCommand(String input) throws TrackerException {
-        try {
-            this.taskIndex = Integer.parseInt(input.split(" ")[1]) - 1;
-        } catch (Exception e) {
-            throw new TrackerException("Invalid delete command. Use: delete <task_number>");
-        }
+    public DeleteCommand(String input) {
+        this.input = input;
     }
 
     /**
@@ -32,17 +28,27 @@ public class DeleteCommand extends Command {
      * @throws TrackerException If the task index is invalid.
      */
     @Override
-    public boolean execute(TaskList taskList, Ui ui, Storage storage) throws TrackerException {
-        Task task = taskList.removeTask(taskIndex);
-        ui.message("    Noted. I've removed this task:\n      "
-                + task + "\n     Now you have " + taskList.size() + " tasks in the list.");
-
+    public String execute(TaskList taskList, Ui ui, Storage storage) throws TrackerException {
+        StringBuilder response = new StringBuilder();
         try {
-            storage.saveTasks(taskList.getTasks());
+            this.taskIndex = Integer.parseInt(input.split(" ")[1]);
         } catch (Exception e) {
-            ui.error("Failed to save tasks: " + e.getMessage());
+            response.append("Error: Invalid delete command. Use: delete <task_number>");
+            return response.toString();
         }
+        if (taskIndex <= 0 || taskIndex > taskList.size()) {
+            response.append("Error: Invalid task index.");
+        } else {
+            Task task = taskList.removeTask(taskIndex - 1);
+            response.append("Noted. I've removed this task:\n").append(task).append("\nNow you have ")
+                    .append(taskList.size()).append(" tasks in the list.");
 
-        return true;
+            try {
+                storage.saveTasks(taskList.getTasks());
+            } catch (Exception e) {
+                response.append("Error: Failed to save tasks: ").append(e.getMessage());
+            }
+        }
+        return response.toString();
     }
 }

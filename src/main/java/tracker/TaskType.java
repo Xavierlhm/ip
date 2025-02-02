@@ -41,6 +41,6 @@ public enum TaskType {
                 return type;
             }
         }
-        throw new IllegalArgumentException("Invalid tracker.TaskType symbol: " + symbol);
+        throw new IllegalArgumentException("Error: Invalid TaskType symbol: " + symbol);
     }
 }

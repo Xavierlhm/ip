@@ -48,7 +48,6 @@ public class Storage {
         if (!Files.exists(filePath)) {
             return tasks;
         }
-
         try (BufferedReader reader = Files.newBufferedReader(filePath)) {
             String line;
 

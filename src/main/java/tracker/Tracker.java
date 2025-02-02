@@ -7,6 +7,7 @@ public class Tracker {
     private Ui ui;
     private Storage storage;
     private TaskList taskList;
+    private String commandType;
 
     /**
      * Constructs a Tracker instance with the specified file path for storage.
@@ -20,37 +21,29 @@ public class Tracker {
         try {
             taskList = new TaskList(storage.loadTasks());
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             ui.loadError();
             taskList = new TaskList();
         }
     }
 
     /**
-     * Starts the task tracker application.
-     */
-    public void run() {
-        ui.greet();
-        boolean isRunning = true;
-
-        while (isRunning) {
-            try {
-                String fullCommand = ui.readCommand();
-                Command command = Parser.parse(fullCommand);
-                isRunning = command.execute(taskList, ui, storage);
-            } catch (TrackerException e) {
-                ui.error(e.getMessage());
-            }
-        }
-
-        ui.goodBye();
-    }
-
-    /**
-     * The main method to launch the tracker application.
+     * Retrieves the command type.
      *
-     * @param args Command-line arguments (not used).
+     * @return The command type.
      */
-    public static void main(String[] args) {
-        new Tracker(System.getProperty("user.home") + "/Documents/tracker.Tracker.txt").run();
+    public String getCommandType() {
+        return commandType;
+    }
+    /**
+     * Generates a response for the user's chat message.
+     */
+    public String getResponse(String input) throws TrackerException {
+        try {
+            Command command = Parser.parse(input);
+            return command.execute(taskList, ui, storage);
+        } catch (TrackerException e) {
+            return e.getMessage();
+        }
     }
 }

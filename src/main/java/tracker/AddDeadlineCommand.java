@@ -26,25 +26,24 @@ public class AddDeadlineCommand extends Command {
      * @return true to continue program execution.
      */
     @Override
-    public boolean execute(TaskList taskList, Ui ui, Storage storage) {
+    public String execute(TaskList taskList, Ui ui, Storage storage) {
+        StringBuilder response = new StringBuilder();
         String[] parts = input.substring(8).split(" /by ");
         if (parts.length < 2 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
-            ui.error("Invalid deadline format. Use: deadline <description> /by <yyyy-MM-dd HHmm>");
-            return true;
+            response.append("Error: Invalid deadline format. Use: deadline <description> /by <yyyy-MM-dd HHmm>");
+            return response.toString();
         }
-
         try {
             Task task = new Deadline(parts[0].trim(), parts[1].trim());
             taskList.addTask(task);
-            ui.message("     Got it. I've added this task:\n       "
-                    + task + "\n     Now you have " + taskList.size() + " tasks in the list.");
+            response.append("Got it. I've added this task:\n").append(task).append("\nNow you have ")
+                    .append(taskList.size()).append(" tasks in the list.");
             storage.saveTasks(taskList.getTasks());
         } catch (IllegalArgumentException e) {
-            ui.error(e.getMessage());
+            response.append("Error: ").append(e.getMessage());
         } catch (Exception e) {
-            ui.error("Failed to save tasks: " + e.getMessage());
+            response.append("Error: Failed to save tasks ").append(e.getMessage());
         }
-
-        return true;
+        return response.toString();
     }
 }

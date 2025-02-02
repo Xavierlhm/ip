@@ -13,17 +13,20 @@ public class ListCommand extends Command {
      * @return true to continue program execution.
      */
     @Override
-    public boolean execute(TaskList taskList, Ui ui, Storage storage) {
+    public String execute(TaskList taskList, Ui ui, Storage storage) {
+
+        StringBuilder response = new StringBuilder();
+
         if (taskList.size() == 0) {
-            ui.message("    Your to-do list is currently empty.");
+            response.append("Your to-do list is currently empty");
         } else {
-            StringBuilder message = new StringBuilder("    Here are the tasks in your list:");
+            response.append("Here are the tasks in your list:");
 
             for (int i = 0; i < taskList.size(); i++) {
-                message.append("\n    ").append(i + 1).append(". ").append(taskList.getTasks().get(i));
+                response.append("\n").append(i + 1).append(". ").append(taskList.getTasks().get(i));
             }
-            ui.message(message.toString());
         }
-        return true;
+        return response.toString();
+
     }
 }

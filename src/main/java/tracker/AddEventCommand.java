@@ -26,31 +26,29 @@ public class AddEventCommand extends Command {
      * @return true to continue program execution.
      */
     @Override
-    public boolean execute(TaskList taskList, Ui ui, Storage storage) {
+    public String execute(TaskList taskList, Ui ui, Storage storage) {
+        StringBuilder response = new StringBuilder();
         String[] parts = input.substring(5).split(" /from ");
         if (parts.length < 2 || parts[0].trim().isEmpty()) {
-            ui.error("Invalid event format. Use: event <description> /from <start> /to <end>");
-            return true;
+            response.append("Error: Invalid event format. Use: event <description> /from <start> /to <end>");
+            return response.toString();
         }
-
         String[] times = parts[1].split(" /to ");
         if (times.length < 2 || times[0].trim().isEmpty() || times[1].trim().isEmpty()) {
-            ui.error("Invalid event format. Use: event <description> /from <start> /to <end>");
-            return true;
+            response.append("Error: Invalid event format. Use: event <description> /from <start> /to <end>");
+            return response.toString();
         }
-
         try {
             Task task = new Event(parts[0].trim(), times[0].trim(), times[1].trim());
             taskList.addTask(task);
-            ui.message("     Got it. I've added this task:\n       "
-                    + task + "\n     Now you have " + taskList.size() + " tasks in the list.");
+            response.append("Got it. I've added this task:\n").append(task).append("\nNow you have ")
+                    .append(taskList.size()).append(" tasks in the list.");
             storage.saveTasks(taskList.getTasks());
         } catch (IllegalArgumentException e) {
-            ui.error(e.getMessage());
+            response.append("Error: ").append(e.getMessage());
         } catch (Exception e) {
-            ui.error("Failed to save tasks: " + e.getMessage());
+            response.append("Error: Failed to save tasks ").append(e.getMessage());
         }
-
-        return true;
+        return response.toString();
     }
 }

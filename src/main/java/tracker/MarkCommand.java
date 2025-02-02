@@ -4,6 +4,7 @@ package tracker;
  * Handles the "mark" command to mark a task as done.
  */
 public class MarkCommand extends Command {
+    private String input;
     private int taskIndex;
 
     /**
@@ -13,11 +14,7 @@ public class MarkCommand extends Command {
      * @throws TrackerException If the input format is invalid.
      */
     public MarkCommand(String input) throws TrackerException {
-        try {
-            this.taskIndex = Integer.parseInt(input.split(" ")[1]) - 1;
-        } catch (Exception e) {
-            throw new TrackerException("Invalid mark command. User mark <task number>");
-        }
+        this.input = input;
     }
 
     /**
@@ -30,17 +27,27 @@ public class MarkCommand extends Command {
      * @throws TrackerException If the task index is invalid.
      */
     @Override
-    public boolean execute(TaskList taskList, Ui ui, Storage storage) throws TrackerException {
-        Task task = taskList.getTask(taskIndex);
-        task.markAsDone();
-        ui.message("    Nice! I've marked this task as done:\n      " + task);
-
+    public String execute(TaskList taskList, Ui ui, Storage storage) throws TrackerException {
+        StringBuilder response = new StringBuilder();
         try {
-            storage.saveTasks(taskList.getTasks());
+            this.taskIndex = Integer.parseInt(input.split(" ")[1]);
         } catch (Exception e) {
-            ui.error("Failed to save tasks: " + e.getMessage());
+            response.append("Error: Invalid mark command. Use: mark <task_number>");
+            return response.toString();
         }
+        if (taskIndex <= 0 || taskIndex > taskList.size()) {
+            response.append("Error: Invalid task index.");
+        } else {
+            Task task = taskList.getTask(taskIndex - 1);
+            task.markAsDone();
+            response.append("Nice! I've marked this task as done:\n").append(task);
 
-        return true;
+            try {
+                storage.saveTasks(taskList.getTasks());
+            } catch (Exception e) {
+                response.append("Error: Failed to save tasks: ").append(e.getMessage());
+            }
+        }
+        return response.toString();
     }
 }

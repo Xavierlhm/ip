@@ -27,24 +27,25 @@ public class AddTodoCommand extends Command {
      * @throws TrackerException If the input format is invalid.
      */
     @Override
-    public boolean execute(TaskList taskList, Ui ui, Storage storage) throws TrackerException {
+    public String execute(TaskList taskList, Ui ui, Storage storage) throws TrackerException {
+        StringBuilder response = new StringBuilder();
         String description = input.substring(4).trim();
 
         if (description.isEmpty()) {
-            throw new TrackerException("Description cannot be empty");
+            throw new TrackerException("Error: Invalid todo format. Use: todo <description>");
         }
 
         Task task = new Todo(description);
         taskList.addTask(task);
-        ui.message("     Got it. I've added this task:\n       "
-                + task + "\n     Now you have " + taskList.size() + " tasks in the list.");
+
+        response.append("Got it. I've added this task:\n").append(task).append("\nNow you have ")
+                .append(taskList.size()).append(" tasks in the list.");
 
         try {
             storage.saveTasks(taskList.getTasks());
         } catch (Exception e) {
-            ui.error("Failed to save tasks: " + e.getMessage());
+            response.append("Error: Failed to save the tasks ").append(e.getMessage());
         }
-
-        return true;
+        return response.toString();
     }
 }

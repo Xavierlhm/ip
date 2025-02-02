@@ -42,7 +42,7 @@ public class TaskList {
      */
     public Task removeTask(int index) throws TrackerException {
         if (index < 0 || index >= tasks.size()) {
-            throw new TrackerException("tracker.Task index out of range. Please check the list of tasks again.");
+            throw new TrackerException("Error: Task index out of range. Please check the list of tasks again.");
         }
 
         return tasks.remove(index);
@@ -57,7 +57,7 @@ public class TaskList {
      */
     public Task getTask(int index) throws TrackerException {
         if (index < 0 || index >= tasks.size()) {
-            throw new TrackerException("tracker.Task index out of range. Please check the list of tasks again.");
+            throw new TrackerException("Error: Task index out of range. Please check the list of tasks again.");
         }
 
         return tasks.get(index);

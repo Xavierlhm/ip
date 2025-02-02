@@ -28,7 +28,7 @@ public class Event extends Task {
             this.from = LocalDateTime.parse(from, FORMATTER_INPUT);
             this.to = LocalDateTime.parse(to, FORMATTER_INPUT);
         } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("Invalid date format. "
+            throw new IllegalArgumentException("Error: Invalid date format. "
                     + "Please use yyyy-MM-dd HHmm (e.g., 2019-12-02 1400).");
         }
     }
@@ -40,6 +40,18 @@ public class Event extends Task {
      */
     @Override
     public String saveFormat() {
+        return taskType.getTaskSymbol() + " | " + getStatus() + " | " + description
+                + " | from: " + from.format(FORMATTER_INPUT) + " | to: "
+                + to.format(FORMATTER_INPUT);
+    }
+
+    /**
+     * Returns a string representation of the event task.
+     *
+     * @return The formatted string representation of the event task.
+     */
+    @Override
+    public String toString() {
         return super.toString() + " (from: " + from.format(FORMATTER_OUTPUT) + " to: "
                 + to.format(FORMATTER_OUTPUT) + ")";
     }

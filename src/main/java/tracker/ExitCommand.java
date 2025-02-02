@@ -13,8 +13,9 @@ public class ExitCommand extends Command {
      * @return false to signal the program should stop running.
      */
     @Override
-    public boolean execute(TaskList taskList, Ui ui, Storage storage) {
-        ui.goodBye();
-        return false; // Ends the program
+    public String execute(TaskList taskList, Ui ui, Storage storage) {
+        StringBuilder response = new StringBuilder();
+        response.append("Bye. Hope to see you again soon!");
+        return response.toString();
     }
 }

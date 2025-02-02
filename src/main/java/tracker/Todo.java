@@ -20,6 +20,16 @@ public class Todo extends Task {
      */
     @Override
     public String saveFormat() {
-        return taskType.getTaskSymbol() + " | " + (isDone ? "1" : "0") + " | " + description;
+        return taskType.getTaskSymbol() + " | " + getStatus() + " | " + description;
+    }
+
+    /**
+     * Returns a string representation of the to do task.
+     *
+     * @return The formatted string representation of the to do task.
+     */
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

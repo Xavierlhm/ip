@@ -14,5 +14,5 @@ public abstract class Command {
      * @return true if the program should continue running, false otherwise.
      * @throws TrackerException If an error occurs during execution.
      */
-    public abstract boolean execute(TaskList taskList, Ui ui, Storage storage) throws TrackerException;
+    public abstract String execute(TaskList taskList, Ui ui, Storage storage) throws TrackerException;
 }

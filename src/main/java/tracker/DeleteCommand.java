@@ -14,6 +14,7 @@ public class DeleteCommand extends Command {
      * @param input The user input containing the task index to delete.
      */
     public DeleteCommand(String input) {
+        assert input != null && !input.isEmpty() : "Input cannot be null or empty";
         this.input = input;
     }
 
@@ -29,6 +30,9 @@ public class DeleteCommand extends Command {
      */
     @Override
     public String execute(TaskList taskList, Ui ui, Storage storage) throws TrackerException {
+        assert taskList != null : "TaskList cannot be null";
+        assert ui != null : "Ui cannot be null";
+        assert storage != null : "Storage cannot be null";
         StringBuilder response = new StringBuilder();
         try {
             this.taskIndex = Integer.parseInt(input.split(" ")[1]);

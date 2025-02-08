@@ -15,6 +15,8 @@ public abstract class Task {
      * @param taskType    The type of the task.
      */
     public Task(String description, TaskType taskType) {
+        assert description != null && !description.isEmpty() : "Task description must not be null or empty";
+        assert taskType != null : "TaskType must not be null";
         this.description = description;
         this.isDone = false;
         this.taskType = taskType;
@@ -58,13 +60,16 @@ public abstract class Task {
      * @throws IllegalArgumentException If the string format is invalid.
      */
     public static Task loadFormat(String line) throws IllegalArgumentException {
+        assert line != null && !line.isEmpty() : "Saved task line must not be null or empty";
         String[] parts = line.split(" \\| ");
+        assert parts.length >= 3 : "Invalid task format. Expected at least 3 parts";
         TaskType taskType = TaskType.symbolValue(parts[0]);
         boolean isDone = parts[1].equals("X");
         String description = parts[2];
 
         switch (taskType) {
         case DEADLINE:
+            assert parts.length >= 4 : "Deadline task must have a deadline date";
             Deadline deadlineTask = new Deadline(description, parts[3].substring(4));
 
             if (isDone) {
@@ -73,6 +78,7 @@ public abstract class Task {
 
             return deadlineTask;
         case EVENT:
+            assert parts.length >= 5 : "Event task must have a start and end date";
             Event eventTask = new Event(description, parts[3].substring(6), parts[4].substring(4));
 
             if (isDone) {

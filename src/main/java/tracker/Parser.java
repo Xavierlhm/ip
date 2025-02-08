@@ -12,6 +12,7 @@ public class Parser {
      * @throws TrackerException If the command type is invalid.
      */
     public static Command parse(String input) throws TrackerException {
+        assert input != null && !input.isEmpty() : "Input command cannot be null or empty";
         if (input.startsWith("todo")) {
             return new AddTodoCommand(input);
         } else if (input.startsWith("deadline")) {

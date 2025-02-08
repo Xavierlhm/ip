@@ -13,6 +13,7 @@ public class AddTodoCommand extends Command {
      * @param input The user input containing the to-do task details.
      */
     public AddTodoCommand(String input) {
+        assert input != null && !input.isEmpty() : "Input cannot be null or empty";
         this.input = input;
     }
 
@@ -28,14 +29,19 @@ public class AddTodoCommand extends Command {
      */
     @Override
     public String execute(TaskList taskList, Ui ui, Storage storage) throws TrackerException {
+        assert taskList != null : "TaskList cannot be null";
+        assert ui != null : "Ui cannot be null";
+        assert storage != null : "Storage cannot be null";
         StringBuilder response = new StringBuilder();
         String description = input.substring(4).trim();
+        assert description != null : "Description cannot be null";
 
         if (description.isEmpty()) {
             throw new TrackerException("Error: Invalid todo format. Use: todo <description>");
         }
 
         Task task = new Todo(description);
+        assert task != null : "Failed to create Todo task";
         taskList.addTask(task);
 
         response.append("Got it. I've added this task:\n").append(task).append("\nNow you have ")

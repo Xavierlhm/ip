@@ -35,10 +35,13 @@ public class MainWindow extends AnchorPane {
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
+        assert userImage != null : "User image loading failed";
+        assert dukeImage != null : "Duke image loading failed";
     }
 
     /** Injects the Tracker instance */
     public void setTracker(Tracker trackerInstance) {
+        assert trackerInstance != null : "Tracker instance cannot be null";
         tracker = trackerInstance;
     }
 
@@ -49,7 +52,9 @@ public class MainWindow extends AnchorPane {
     @FXML
     private void handleUserInput() throws TrackerException {
         String input = userInput.getText();
+        assert input != null : "User input cannot be null";
         String response = tracker.getResponse(input);
+        assert response != null : "Tracker response cannot be null";
         // String commandType = tracker.getCommandType();
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),

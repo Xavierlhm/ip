@@ -21,6 +21,7 @@ public class TaskList {
      * @param tasks The initial list of tasks.
      */
     public TaskList(ArrayList<Task> tasks) {
+        assert tasks != null : "Task list cannot be null";
         this.tasks = tasks;
     }
 
@@ -30,6 +31,7 @@ public class TaskList {
      * @param task The task to be added.
      */
     public void addTask(Task task) {
+        assert task != null : "Task to add cannot be null";
         tasks.add(task);
     }
 
@@ -41,10 +43,13 @@ public class TaskList {
      * @throws TrackerException If the index is out of range.
      */
     public Task removeTask(int index) throws TrackerException {
+        /*
         if (index < 0 || index >= tasks.size()) {
             throw new TrackerException("Error: Task index out of range. Please check the list of tasks again.");
         }
+         */
 
+        assert index >= 0 && index < tasks.size() : "Index out of range when removing task";
         return tasks.remove(index);
     }
 
@@ -56,10 +61,13 @@ public class TaskList {
      * @throws TrackerException If the index is out of range.
      */
     public Task getTask(int index) throws TrackerException {
+        /*
         if (index < 0 || index >= tasks.size()) {
             throw new TrackerException("Error: Task index out of range. Please check the list of tasks again.");
         }
+         */
 
+        assert index >= 0 && index < tasks.size() : "Index out of range when retrieving task";
         return tasks.get(index);
     }
 

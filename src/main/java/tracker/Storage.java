@@ -20,6 +20,7 @@ public class Storage {
      * @param filePath The path to the file where tasks will be stored.
      */
     public Storage(String filePath) {
+        assert filePath != null && !filePath.isEmpty() : "File path cannot be null or empty";
         this.filePath = Paths.get(filePath);
     }
 
@@ -52,6 +53,7 @@ public class Storage {
             String line;
 
             while ((line = reader.readLine()) != null) {
+                assert line != null && !line.isEmpty() : "Empty or null line in file";
                 tasks.add(Task.loadFormat(line));
             }
         }
@@ -66,10 +68,12 @@ public class Storage {
      * @throws IOException If an error occurs while writing to the file.
      */
     public void saveTasks(ArrayList<Task> tasks) throws IOException {
+        assert tasks != null : "Tasks list cannot be null before saving";
         checkDirectoryExists();
 
         try (BufferedWriter writer = Files.newBufferedWriter(filePath)) {
             for (Task task : tasks) {
+                assert task != null : "Task to be saved is null";
                 writer.write(task.saveFormat());
                 writer.newLine();
             }

@@ -14,6 +14,7 @@ public class Ui {
      */
     public Ui() {
         scanner = new Scanner(System.in);
+        assert scanner != null : "Scanner initialization failed";
     }
 
     /**
@@ -32,6 +33,7 @@ public class Ui {
      * @return The user's input as a string.
      */
     public String readCommand() {
+        assert scanner != null : "Scanner must not be null";
         return scanner.nextLine();
     }
 
@@ -61,6 +63,7 @@ public class Ui {
      * @param message The message to display.
      */
     public void message(String message) {
+        assert message != null : "Message cannot be null";
         System.out.println(HORIZONTAL_LINE);
         System.out.println(message);
         System.out.println(HORIZONTAL_LINE);

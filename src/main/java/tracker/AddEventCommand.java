@@ -37,7 +37,6 @@ public class AddEventCommand extends Command {
         assert storage != null : "Storage cannot be null";
         StringBuilder response = new StringBuilder();
         String[] parts = input.substring(SPLIT_INDEX).split(" /from ");
-        //assert parts.length >= 2 : "Invalid event input, missing /from or /to";
         boolean isLessThanLimit = parts.length < MAX_SIZE;
         boolean isDescriptionEmpty = parts[FIRST_PART].trim().isEmpty();
         boolean isValidCode = isLessThanLimit || isDescriptionEmpty;
@@ -46,7 +45,6 @@ public class AddEventCommand extends Command {
             return response.toString();
         }
         String[] times = parts[SECOND_PART].split(" /to ");
-        //assert times.length >= 2 : "Invalid event input, missing /to part";
         boolean isWithinLimit = times.length < MAX_SIZE;
         boolean isFromEmpty = times[FIRST_PART].trim().isEmpty();
         boolean isToEmpty = times[SECOND_PART].trim().isEmpty();
@@ -57,7 +55,6 @@ public class AddEventCommand extends Command {
         }
         try {
             Task task = new Event(parts[FIRST_PART].trim(), times[FIRST_PART].trim(), times[SECOND_PART].trim());
-            //assert task != null : "Failed to create Event task";
             taskList.addTask(task);
             response.append("Got it. I've added this task:\n").append(task).append("\nNow you have ")
                     .append(taskList.size()).append(" tasks in the list.");

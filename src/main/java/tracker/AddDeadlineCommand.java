@@ -39,16 +39,15 @@ public class AddDeadlineCommand extends Command {
         String[] parts = input.substring(SPLIT_INDEX).split(" /by ");
         boolean isLessThanLimit = parts.length < MAX_SIZE;
         boolean isDescriptionEmpty = parts[FIRST_PART].trim().isEmpty();
-        boolean isByEmpty = parts[SECOND_PART].trim().isEmpty();
-        boolean isValidCode = isLessThanLimit || isDescriptionEmpty || isByEmpty;
-        //assert parts.length >= 2 : "Deadline input must contain description and date";
+        boolean isMoreThanLimit = parts.length >= MAX_SIZE;
+        boolean isDateEmpty = isMoreThanLimit && parts[SECOND_PART].trim().isEmpty();
+        boolean isValidCode = isLessThanLimit || isDescriptionEmpty || isDateEmpty;
         if (isValidCode) {
             response.append("Error: Invalid deadline format. Use: deadline <description> /by <yyyy-MM-dd HHmm>");
             return response.toString();
         }
         try {
             Task task = new Deadline(parts[FIRST_PART].trim(), parts[SECOND_PART].trim());
-            //assert task != null : "Task creation failed";
             taskList.addTask(task);
             response.append("Got it. I've added this task:\n").append(task).append("\nNow you have ")
                     .append(taskList.size()).append(" tasks in the list.");

@@ -4,6 +4,9 @@ package tracker;
  * Handles the "mark" command to mark a task as done.
  */
 public class MarkCommand extends Command {
+    static final int SPLIT_INDEX = 1;
+    static final int EMPTY_INDEX = 0;
+    static final int ONE_INDEX = 1;
     private String input;
     private int taskIndex;
 
@@ -30,18 +33,18 @@ public class MarkCommand extends Command {
     public String execute(TaskList taskList, Ui ui, Storage storage) throws TrackerException {
         StringBuilder response = new StringBuilder();
         try {
-            this.taskIndex = Integer.parseInt(input.split(" ")[1]);
+            this.taskIndex = Integer.parseInt(input.split(" ")[SPLIT_INDEX]);
         } catch (Exception e) {
             response.append("Error: Invalid mark command. Use: mark <task_number>");
             return response.toString();
         }
-        boolean isWithinSize = taskIndex <= 0;
+        boolean isWithinSize = taskIndex <= EMPTY_INDEX;
         boolean isMoreThanSize = taskIndex > taskList.size();
         boolean isValidIndex = isWithinSize || isMoreThanSize;
         if (isValidIndex) {
             response.append("Error: Invalid task index.");
         } else {
-            Task task = taskList.getTask(taskIndex - 1);
+            Task task = taskList.getTask(taskIndex - ONE_INDEX);
             task.markAsDone();
             response.append("Nice! I've marked this task as done:\n").append(task);
 

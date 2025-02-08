@@ -15,6 +15,7 @@ import javafx.util.Duration;
  * Controller for the main GUI.
  */
 public class MainWindow extends AnchorPane {
+    static final double PAUSE_DURATION = 1;
     @FXML
     private ScrollPane scrollPane;
     @FXML
@@ -55,14 +56,13 @@ public class MainWindow extends AnchorPane {
         assert input != null : "User input cannot be null";
         String response = tracker.getResponse(input);
         assert response != null : "Tracker response cannot be null";
-        // String commandType = tracker.getCommandType();
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
                 DialogBox.getDukeDialog(response, dukeImage)
         );
         userInput.clear();
         if (input.equalsIgnoreCase("bye")) {
-            PauseTransition pause = new PauseTransition(Duration.seconds(1));
+            PauseTransition pause = new PauseTransition(Duration.seconds(PAUSE_DURATION));
             pause.setOnFinished(event -> Platform.exit());
             pause.play();
         }

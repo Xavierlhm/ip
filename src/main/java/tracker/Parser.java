@@ -31,6 +31,8 @@ public class Parser {
             return new ExitCommand();
         } else if (input.startsWith("find")) {
             return new FindCommand(input);
+        } else if (input.equalsIgnoreCase("help")) {
+          return new HelpCommand();
         } else {
             throw new TrackerException("I'm sorry, but I don't know what that means.");
         }

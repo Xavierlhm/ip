@@ -18,7 +18,8 @@ public class FindCommand extends Command {
     public FindCommand(String input) throws TrackerException {
         String[] parts = input.split(" ", SPLIT_INDEX);
         boolean isLessThanLimit = parts.length < MAX_SIZE;
-        boolean isKeywordEmpty = parts[SECOND_PART].trim().isEmpty();
+        boolean isMoreThanLimit = parts.length >= MAX_SIZE;
+        boolean isKeywordEmpty = isMoreThanLimit && parts[SECOND_PART].trim().isEmpty();
         boolean isValidCommand = isLessThanLimit || isKeywordEmpty;
         if (isValidCommand) {
             throw new TrackerException("Error: Find command must include a keyword. Use: find <keyword>");

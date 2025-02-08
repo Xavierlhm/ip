@@ -35,7 +35,10 @@ public class MarkCommand extends Command {
             response.append("Error: Invalid mark command. Use: mark <task_number>");
             return response.toString();
         }
-        if (taskIndex <= 0 || taskIndex > taskList.size()) {
+        boolean isWithinSize = taskIndex <= 0;
+        boolean isMoreThanSize = taskIndex > taskList.size();
+        boolean isValidIndex = isWithinSize || isMoreThanSize;
+        if (isValidIndex) {
             response.append("Error: Invalid task index.");
         } else {
             Task task = taskList.getTask(taskIndex - 1);

@@ -5,6 +5,10 @@ package tracker;
  * Parses the user input, validates the format, and adds the task to the task list.
  */
 public class AddEventCommand extends Command {
+    static final int SPLIT_INDEX = 5;
+    static final int MAX_SIZE = 2;
+    static final int FIRST_PART = 0;
+    static final int SECOND_PART = 1;
     private String input;
 
     /**
@@ -32,20 +36,27 @@ public class AddEventCommand extends Command {
         assert ui != null : "Ui cannot be null";
         assert storage != null : "Storage cannot be null";
         StringBuilder response = new StringBuilder();
-        String[] parts = input.substring(5).split(" /from ");
+        String[] parts = input.substring(SPLIT_INDEX).split(" /from ");
         //assert parts.length >= 2 : "Invalid event input, missing /from or /to";
-        if (parts.length < 2 || parts[0].trim().isEmpty()) {
+        boolean isLessThanLimit = parts.length < MAX_SIZE;
+        boolean isDescriptionEmpty = parts[FIRST_PART].trim().isEmpty();
+        boolean isValidCode = isLessThanLimit || isDescriptionEmpty;
+        if (isValidCode) {
             response.append("Error: Invalid event format. Use: event <description> /from <start> /to <end>");
             return response.toString();
         }
-        String[] times = parts[1].split(" /to ");
+        String[] times = parts[SECOND_PART].split(" /to ");
         //assert times.length >= 2 : "Invalid event input, missing /to part";
-        if (times.length < 2 || times[0].trim().isEmpty() || times[1].trim().isEmpty()) {
+        boolean isWithinLimit = times.length < MAX_SIZE;
+        boolean isFromEmpty = times[FIRST_PART].trim().isEmpty();
+        boolean isToEmpty = times[SECOND_PART].trim().isEmpty();
+        boolean isValidTime = isWithinLimit || isFromEmpty || isToEmpty;
+        if (isValidTime) {
             response.append("Error: Invalid event format. Use: event <description> /from <start> /to <end>");
             return response.toString();
         }
         try {
-            Task task = new Event(parts[0].trim(), times[0].trim(), times[1].trim());
+            Task task = new Event(parts[FIRST_PART].trim(), times[FIRST_PART].trim(), times[SECOND_PART].trim());
             //assert task != null : "Failed to create Event task";
             taskList.addTask(task);
             response.append("Got it. I've added this task:\n").append(task).append("\nNow you have ")

@@ -4,6 +4,13 @@ package tracker;
  * Represents a generic task with a description and a completion status.
  */
 public abstract class Task {
+    static final int EMPTY_INDEX = 0;
+    static final int ONE_INDEX = 1;
+    static final int TWO_INDEX = 2;
+    static final int THREE_INDEX = 3;
+    static final int FOUR_INDEX = 4;
+    static final int FIVE_INDEX = 5;
+    static final int SIX_INDEX = 6;
     protected String description;
     protected boolean isDone;
     protected TaskType taskType;
@@ -62,15 +69,15 @@ public abstract class Task {
     public static Task loadFormat(String line) throws IllegalArgumentException {
         assert line != null && !line.isEmpty() : "Saved task line must not be null or empty";
         String[] parts = line.split(" \\| ");
-        assert parts.length >= 3 : "Invalid task format. Expected at least 3 parts";
-        TaskType taskType = TaskType.symbolValue(parts[0]);
-        boolean isDone = parts[1].equals("X");
-        String description = parts[2];
+        assert parts.length >= THREE_INDEX : "Invalid task format. Expected at least 3 parts";
+        TaskType taskType = TaskType.symbolValue(parts[EMPTY_INDEX]);
+        boolean isDone = parts[ONE_INDEX].equals("X");
+        String description = parts[TWO_INDEX];
 
         switch (taskType) {
         case DEADLINE:
-            assert parts.length >= 4 : "Deadline task must have a deadline date";
-            Deadline deadlineTask = new Deadline(description, parts[3].substring(4));
+            assert parts.length >= FOUR_INDEX : "Deadline task must have a deadline date";
+            Deadline deadlineTask = new Deadline(description, parts[THREE_INDEX].substring(FOUR_INDEX));
 
             if (isDone) {
                 deadlineTask.markAsDone();
@@ -78,8 +85,9 @@ public abstract class Task {
 
             return deadlineTask;
         case EVENT:
-            assert parts.length >= 5 : "Event task must have a start and end date";
-            Event eventTask = new Event(description, parts[3].substring(6), parts[4].substring(4));
+            assert parts.length >= FIVE_INDEX : "Event task must have a start and end date";
+            Event eventTask = new Event(description, parts[THREE_INDEX].substring(SIX_INDEX),
+                    parts[FOUR_INDEX].substring(FOUR_INDEX));
 
             if (isDone) {
                 eventTask.markAsDone();

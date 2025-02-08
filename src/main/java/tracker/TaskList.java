@@ -6,6 +6,7 @@ import java.util.ArrayList;
  * Manages a list of tasks.
  */
 public class TaskList {
+    static final int EMPTY_INDEX = 0;
     private ArrayList<Task> tasks;
 
     /**
@@ -49,7 +50,7 @@ public class TaskList {
         }
          */
 
-        assert index >= 0 && index < tasks.size() : "Index out of range when removing task";
+        assert index >= EMPTY_INDEX && index < tasks.size() : "Index out of range when removing task";
         return tasks.remove(index);
     }
 
@@ -67,7 +68,7 @@ public class TaskList {
         }
          */
 
-        assert index >= 0 && index < tasks.size() : "Index out of range when retrieving task";
+        assert index >= EMPTY_INDEX && index < tasks.size() : "Index out of range when retrieving task";
         return tasks.get(index);
     }
 

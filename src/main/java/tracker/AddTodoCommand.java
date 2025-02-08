@@ -5,6 +5,7 @@ package tracker;
  * Parses the user input, validates the format, and adds the task to the task list.
  */
 public class AddTodoCommand extends Command {
+    static final int SPLIT_INDEX = 4;
     private String input;
 
     /**
@@ -33,10 +34,11 @@ public class AddTodoCommand extends Command {
         assert ui != null : "Ui cannot be null";
         assert storage != null : "Storage cannot be null";
         StringBuilder response = new StringBuilder();
-        String description = input.substring(4).trim();
+        String description = input.substring(SPLIT_INDEX).trim();
         assert description != null : "Description cannot be null";
+        boolean isDescriptionEmpty = description.isEmpty();
 
-        if (description.isEmpty()) {
+        if (isDescriptionEmpty) {
             throw new TrackerException("Error: Invalid todo format. Use: todo <description>");
         }
 

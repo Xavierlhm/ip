@@ -5,6 +5,10 @@ package tracker;
  * Parses the user input, validates the format, and adds the task to the task list.
  */
 public class AddDeadlineCommand extends Command {
+    static final int SPLIT_INDEX = 8;
+    static final int MAX_SIZE = 2;
+    static final int FIRST_PART = 0;
+    static final int SECOND_PART = 1;
     private String input;
 
     /**
@@ -32,14 +36,18 @@ public class AddDeadlineCommand extends Command {
         assert storage != null : "Storage cannot be null";
         assert ui != null : "UI cannot be null";
         StringBuilder response = new StringBuilder();
-        String[] parts = input.substring(8).split(" /by ");
+        String[] parts = input.substring(SPLIT_INDEX).split(" /by ");
+        boolean isLessThanLimit = parts.length < MAX_SIZE;
+        boolean isDescriptionEmpty = parts[FIRST_PART].trim().isEmpty();
+        boolean isByEmpty = parts[SECOND_PART].trim().isEmpty();
+        boolean isValidCode = isLessThanLimit || isDescriptionEmpty || isByEmpty;
         //assert parts.length >= 2 : "Deadline input must contain description and date";
-        if (parts.length < 2 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
+        if (isValidCode) {
             response.append("Error: Invalid deadline format. Use: deadline <description> /by <yyyy-MM-dd HHmm>");
             return response.toString();
         }
         try {
-            Task task = new Deadline(parts[0].trim(), parts[1].trim());
+            Task task = new Deadline(parts[FIRST_PART].trim(), parts[SECOND_PART].trim());
             //assert task != null : "Task creation failed";
             taskList.addTask(task);
             response.append("Got it. I've added this task:\n").append(task).append("\nNow you have ")

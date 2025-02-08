@@ -4,6 +4,9 @@ package tracker;
  * Handles the "unmark" command to mark a task as not done.
  */
 public class UnmarkCommand extends Command {
+    static final int SPLIT_INDEX = 1;
+    static final int EMPTY_INDEX = 0;
+    static final int ONE_INDEX = 1;
     private String input;
     private int taskIndex;
 
@@ -30,15 +33,18 @@ public class UnmarkCommand extends Command {
     public String execute(TaskList taskList, Ui ui, Storage storage) throws TrackerException {
         StringBuilder response = new StringBuilder();
         try {
-            this.taskIndex = Integer.parseInt(input.split(" ")[1]);
+            this.taskIndex = Integer.parseInt(input.split(" ")[SPLIT_INDEX]);
         } catch (Exception e) {
             response.append("Error: Invalid unmark command. Use: unmark <task_number>");
             return response.toString();
         }
-        if (taskIndex <= 0 || taskIndex > taskList.size()) {
+        boolean isWithinSize = taskIndex <= EMPTY_INDEX;
+        boolean isMoreThanSize = taskIndex > taskList.size();
+        boolean isValidIndex = isWithinSize || isMoreThanSize;
+        if (isValidIndex) {
             response.append("Error: Invalid task index.");
         } else {
-            Task task = taskList.getTask(taskIndex - 1);
+            Task task = taskList.getTask(taskIndex - ONE_INDEX);
             task.unmarkAsDone();
             response.append("OK, I've marked this task as not done yet:\n").append(task);
 

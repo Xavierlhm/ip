@@ -38,20 +38,6 @@ public class FindCommand extends Command {
     @Override
     public String execute(TaskList taskList, Ui ui, Storage storage) {
         StringBuilder response = new StringBuilder("Here are the matching tasks in your list:");
-        /*
-        boolean isFound = false;
-        for (int i = EMPTY_INDEX; i < taskList.size(); i++) {
-            Task task = taskList.getTasks().get(i);
-            boolean isValidCommand = task.description.contains(keyword);
-            if (isValidCommand) {
-                response.append("\n").append(i + ONE_INDEX).append(". ").append(task);
-                isFound = true;
-            }
-        }
-        if (!isFound) {
-            response.append("No matching tasks found.");
-        }
-         */
         String tasks = taskList.getTasks().stream()
                 .filter(task -> task.description.contains(keyword))
                 .map(task -> (taskList.getTasks().indexOf(task) + 1) + ". " + task)

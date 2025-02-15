@@ -92,3 +92,7 @@ Example: `find return`
 Here are the matching tasks in your list:
 2. [D][X] return book (by: Feb 03 2025, 6:00pm)
 ```
+
+## Download
+
+Download the new JAR file in the [Releases page](https://github.com/Xavierlhm/ip/releases). 

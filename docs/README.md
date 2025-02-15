@@ -1,30 +1,94 @@
-# Duke User Guide
+# Tracker User Guide
 
-// Update the title above to match the actual product name
+![Ui.png](Ui.png)
 
-// Product screenshot goes here
-
-// Product intro goes here
+Tracker is an application to help users keep track of their day-to-day tasks. 
 
 ## Adding deadlines
 
-// Describe the action and its outcome.
+Deadline tasks includes a deadline that the user has to take note of.
 
-// Give examples of usage
+Command Usage: `deadline <description> /by <yyyy-MM-dd HHmm>`
 
-Example: `keyword (optional arguments)`
-
-// A description of the expected outcome goes here
+Example: `deadline return book /by 2025-02-03 1800`
 
 ```
-expected output
+return book (by: Feb 03 2025, 6:00pm)
 ```
 
-## Feature ABC
+## Adding events
 
-// Feature details
+Event tasks includes two dates: from and to, to specify the event duration.
 
+Command Usage: `event <description> /from <start> /to <end>`
 
-## Feature XYZ
+Example: `event project /from 2025-02-03 1800 /to 2025-02-03 1900`
 
-// Feature details
+```
+project (from: Feb 03 2025, 6:00pm to: Feb 03 2025, 7:00pm)
+```
+
+## Adding Todos
+
+Todo tasks do not need dates.
+
+Command Usage: `todo <description>`
+
+Example: `todo eat`
+
+```
+eat
+```
+
+## Mark Tasks
+
+Mark tasks when done.
+
+Command Usage: `mark <index>`
+
+Example: `mark 1`
+
+```
+Nice! I've marked this task as done:
+[T][X] eat
+```
+
+## Unmark Tasks
+
+Unmark tasks.
+
+Command Usage: `unmark <index>`
+
+Example: `unmark 1`
+
+```
+OK, I've marked this task as not done yet:
+[T][] eat
+```
+
+## Delete Tasks
+
+Delete tasks.
+
+Command Usage: `delete <index>`
+
+Example: `delete 1`
+
+```
+Noted. I've removed this tasks:
+[T][X] eat
+Now you have 3 tasks in the list.
+```
+
+## Find Tasks
+
+Find tasks with keyword.
+
+Command Usage: `find <index>`
+
+Example: `find return`
+
+```
+Here are the matching tasks in your list:
+2. [D][X] return book (by: Feb 03 2025, 6:00pm)
+```

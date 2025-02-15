@@ -25,7 +25,7 @@ public class Storage {
     }
 
     /**
-     * Ensures that the directory for the file exists, creating it if necessary.
+     * Ensures that the directory for the file exists, creating it if necessary / does not exist.
      *
      * @throws IOException If an error occurs while creating the directory.
      */

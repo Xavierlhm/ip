@@ -23,7 +23,7 @@ public class ListCommand extends Command {
         if (isEmpty) {
             response.append("Your to-do list is currently empty");
         } else {
-            response.append("Here are the tasks in your list:");
+            response.append("Nice seeing you being neat!\nHere are the tasks in your list:");
 
             for (int i = EMPTY_INDEX; i < taskList.size(); i++) {
                 response.append("\n").append(i + ONE_INDEX).append(". ").append(taskList.getTasks().get(i));

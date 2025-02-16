@@ -22,6 +22,73 @@ public class AddEventCommand extends Command {
     }
 
     /**
+     * Parses the input string to extract event details.
+     *
+     * @param input The user input string.
+     * @return A string array containing event description, start, and end times.
+     */
+    private String[] parseEventInput(String input) {
+        return input.substring(SPLIT_INDEX).split(" /from ");
+    }
+
+    /**
+     * Validates the extracted event details.
+     *
+     * @param parts The event details array.
+     * @return If validation fails.
+     */
+    private boolean validateCommand(String[] parts) {
+        boolean isLessThanLimit = parts.length < MAX_SIZE;
+        boolean isDescriptionEmpty = parts[FIRST_PART].trim().isEmpty();
+        return isLessThanLimit || isDescriptionEmpty;
+    }
+
+    /**
+     * Validates the extracted event details.
+     *
+     * @param times The event details array.
+     * @return If validation fails.
+     */
+    private boolean validateDate(String[] times) {
+        boolean isWithinLimit = times.length < MAX_SIZE;
+        boolean isFromEmpty = times[FIRST_PART].trim().isEmpty();
+        boolean isToEmpty = times.length > SECOND_PART && times[SECOND_PART].trim().isEmpty();
+        return isWithinLimit || isFromEmpty || isToEmpty;
+    }
+
+    /**
+     * Creates an Event task from the parsed details.
+     *
+     * @param parts The event details array.
+     * @return A new Event task.
+     */
+    private Task createEventTask(String[] parts) {
+        String[] times = parts[SECOND_PART].split(" /to ");
+        return new Event(parts[FIRST_PART].trim(), times[FIRST_PART].trim(), times[SECOND_PART].trim());
+    }
+
+    /**
+     * Adds the task to the task list.
+     *
+     * @param taskList The task list.
+     * @param task     The event task.
+     */
+    private void addTaskToTaskList(TaskList taskList, Task task) {
+        taskList.addTask(task);
+    }
+
+    /**
+     * Formats the success message.
+     *
+     * @param task      The added event task.
+     * @param taskCount The updated task count.
+     * @return A formatted success message.
+     */
+    private String formatSuccessMessage(Task task, int taskCount) {
+        return String.format("Got it. I've added this task:\n%s\nNow you have %d tasks in the list.", task, taskCount);
+    }
+
+    /**
      * Executes the command to add an event task.
      * Validates the input format and adds the task to the task list.
      *
@@ -35,35 +102,25 @@ public class AddEventCommand extends Command {
         assert taskList != null : "TaskList cannot be null";
         assert ui != null : "Ui cannot be null";
         assert storage != null : "Storage cannot be null";
-        StringBuilder response = new StringBuilder();
-        String[] parts = input.substring(SPLIT_INDEX).split(" /from ");
-        boolean isLessThanLimit = parts.length < MAX_SIZE;
-        boolean isDescriptionEmpty = parts[FIRST_PART].trim().isEmpty();
-        boolean isValidCode = isLessThanLimit || isDescriptionEmpty;
-        if (isValidCode) {
-            response.append("Error: Invalid event format. Use: event <description> /from <start> /to <end>");
-            return response.toString();
+        String[] eventDetails = parseEventInput(input);
+
+        if (validateCommand(eventDetails)) {
+            return "Error: Invalid event format. Use: event <description> /from <start> /to <end>";
         }
-        String[] times = parts[SECOND_PART].split(" /to ");
-        boolean isWithinLimit = times.length < MAX_SIZE;
-        boolean isFromEmpty = times[FIRST_PART].trim().isEmpty();
-        boolean isToEmpty = times[SECOND_PART].trim().isEmpty();
-        boolean isValidTime = isWithinLimit || isFromEmpty || isToEmpty;
-        if (isValidTime) {
-            response.append("Error: Invalid event format. Use: event <description> /from <start> /to <end>");
-            return response.toString();
+
+        String[] times = eventDetails[SECOND_PART].split(" /to ");
+
+        if (validateCommand(times)) {
+            return "Error: Invalid event format. Use: event <description> /from <start> /to <end>";
         }
+
         try {
-            Task task = new Event(parts[FIRST_PART].trim(), times[FIRST_PART].trim(), times[SECOND_PART].trim());
-            taskList.addTask(task);
-            response.append("Got it. I've added this task:\n").append(task).append("\nNow you have ")
-                    .append(taskList.size()).append(" tasks in the list.");
+            Task eventTask = createEventTask(eventDetails);
+            addTaskToTaskList(taskList, eventTask);
             storage.saveTasks(taskList.getTasks());
-        } catch (IllegalArgumentException e) {
-            response.append("Error: ").append(e.getMessage());
+            return formatSuccessMessage(eventTask, taskList.size());
         } catch (Exception e) {
-            response.append("Error: Failed to save tasks ").append(e.getMessage());
+            return e.getMessage();
         }
-        return response.toString();
     }
 }

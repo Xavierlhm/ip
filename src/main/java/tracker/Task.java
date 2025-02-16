@@ -11,6 +11,7 @@ public abstract class Task {
     static final int FOUR_INDEX = 4;
     static final int FIVE_INDEX = 5;
     static final int SIX_INDEX = 6;
+
     protected String description;
     protected boolean isDone;
     protected TaskType taskType;
@@ -22,11 +23,33 @@ public abstract class Task {
      * @param taskType    The type of the task.
      */
     public Task(String description, TaskType taskType) {
-        assert description != null && !description.isEmpty() : "Task description must not be null or empty";
-        assert taskType != null : "TaskType must not be null";
+        validateDescription(description);
+        validateTaskType(taskType);
         this.description = description;
         this.isDone = false;
         this.taskType = taskType;
+    }
+
+    /**
+     * Validates that the task description is not null or empty.
+     *
+     * @param description The description to validate.
+     */
+    private void validateDescription(String description) {
+        if (description == null || description.isEmpty()) {
+            throw new IllegalArgumentException("Task description must not be null or empty");
+        }
+    }
+
+    /**
+     * Validates that the task type is not null.
+     *
+     * @param taskType The task type to validate.
+     */
+    private void validateTaskType(TaskType taskType) {
+        if (taskType == null) {
+            throw new IllegalArgumentException("TaskType must not be null");
+        }
     }
 
     /**
@@ -35,7 +58,7 @@ public abstract class Task {
      * @return "X" if the task is done, otherwise " ".
      */
     public String getStatus() {
-        return (isDone ? "X" : " ");
+        return isDone ? "X" : " ";
     }
 
     /**
@@ -67,43 +90,107 @@ public abstract class Task {
      * @throws IllegalArgumentException If the string format is invalid.
      */
     public static Task loadFormat(String line) throws IllegalArgumentException {
-        assert line != null && !line.isEmpty() : "Saved task line must not be null or empty";
+        validateLoadFormat(line);
         String[] parts = line.split(" \\| ");
-        assert parts.length >= THREE_INDEX : "Invalid task format. Expected at least 3 parts";
         TaskType taskType = TaskType.symbolValue(parts[EMPTY_INDEX]);
         boolean isDone = parts[ONE_INDEX].equals("X");
         String description = parts[TWO_INDEX];
 
+        return createTaskFromFormat(taskType, isDone, parts, description);
+    }
+
+    /**
+     * Validates the format of the loaded task.
+     *
+     * @param line The string containing the task details.
+     */
+    private static void validateLoadFormat(String line) {
+        if (line == null || line.isEmpty()) {
+            throw new IllegalArgumentException("Saved task line must not be null or empty");
+        }
+    }
+
+    /**
+     * Creates a Task object from a given formatted string.
+     *
+     * @param taskType    The type of the task.
+     * @param isDone      Whether the task is marked as done.
+     * @param parts       The split parts of the formatted string.
+     * @param description The task description.
+     * @return A newly created Task object.
+     */
+    private static Task createTaskFromFormat(TaskType taskType, boolean isDone, String[] parts, String description) {
+        Task task;
         switch (taskType) {
         case DEADLINE:
-            assert parts.length >= FOUR_INDEX : "Deadline task must have a deadline date";
-            Deadline deadlineTask = new Deadline(description, parts[THREE_INDEX].substring(FOUR_INDEX));
-
-            if (isDone) {
-                deadlineTask.markAsDone();
-            }
-
-            return deadlineTask;
+            validateDeadlineFormat(parts);
+            task = new Deadline(description, extractDeadlineDate(parts));
+            break;
         case EVENT:
-            assert parts.length >= FIVE_INDEX : "Event task must have a start and end date";
-            Event eventTask = new Event(description, parts[THREE_INDEX].substring(SIX_INDEX),
-                    parts[FOUR_INDEX].substring(FOUR_INDEX));
-
-            if (isDone) {
-                eventTask.markAsDone();
-            }
-
-            return eventTask;
+            validateEventFormat(parts);
+            task = new Event(description, extractEventStart(parts), extractEventEnd(parts));
+            break;
         case TODO:
         default:
-            Todo todoTask = new Todo(description);
-
-            if (isDone) {
-                todoTask.markAsDone();
-            }
-
-            return todoTask;
+            task = new Todo(description);
         }
+
+        if (isDone) {
+            task.markAsDone();
+        }
+        return task;
+    }
+
+    /**
+     * Ensures that a Deadline task format is correct.
+     *
+     * @param parts The parts of the task string.
+     */
+    private static void validateDeadlineFormat(String[] parts) {
+        if (parts.length < FOUR_INDEX) {
+            throw new IllegalArgumentException("Deadline task must have a deadline date");
+        }
+    }
+
+    /**
+     * Extracts the deadline date from the task format.
+     *
+     * @param parts The parts of the task string.
+     * @return The formatted deadline date.
+     */
+    private static String extractDeadlineDate(String[] parts) {
+        return parts[THREE_INDEX].substring(FOUR_INDEX);
+    }
+
+    /**
+     * Ensures that an Event task format is correct.
+     *
+     * @param parts The parts of the task string.
+     */
+    private static void validateEventFormat(String[] parts) {
+        if (parts.length < FIVE_INDEX) {
+            throw new IllegalArgumentException("Event task must have a start and end date");
+        }
+    }
+
+    /**
+     * Extracts the event start time from the task format.
+     *
+     * @param parts The parts of the task string.
+     * @return The formatted event start time.
+     */
+    private static String extractEventStart(String[] parts) {
+        return parts[THREE_INDEX].substring(SIX_INDEX);
+    }
+
+    /**
+     * Extracts the event end time from the task format.
+     *
+     * @param parts The parts of the task string.
+     * @return The formatted event end time.
+     */
+    private static String extractEventEnd(String[] parts) {
+        return parts[FOUR_INDEX].substring(FOUR_INDEX);
     }
 
     /**

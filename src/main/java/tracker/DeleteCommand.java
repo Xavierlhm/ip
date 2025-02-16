@@ -22,6 +22,47 @@ public class DeleteCommand extends Command {
     }
 
     /**
+     * @return Task Index to delete.
+     */
+    private int parseTaskIndex() {
+        try {
+            return Integer.parseInt(input.split(" ")[SPLIT_INDEX]) - ONE_INDEX;
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+
+    /**
+     * @param taskList The task list from which the task will be deleted.
+     * @return If the task index input is valid.
+     */
+    private boolean isValidTaskIndex(TaskList taskList) {
+        boolean isWithinSize = taskIndex >= EMPTY_INDEX;
+        boolean isMoreThanSize = taskIndex < taskList.size();
+        return isWithinSize && isMoreThanSize;
+    }
+
+    /**
+     * @param taskList The task list from which the task will be deleted.
+     * @param storage The storage to save the updated task list.
+     * @return The response from the application.
+     * @throws TrackerException If the task index is invalid.
+     */
+    private String deleteTask(TaskList taskList, Storage storage) throws TrackerException {
+        StringBuilder response = new StringBuilder();
+        Task task = taskList.removeTask(taskIndex);
+        response.append("Noted. I've removed this task:\n").append(task)
+                .append("\nNow you have ").append(taskList.size()).append(" tasks in the list.");
+
+        try {
+            storage.saveTasks(taskList.getTasks());
+        } catch (Exception e) {
+            response.append("Error: Failed to save tasks: ").append(e.getMessage());
+        }
+        return response.toString();
+    }
+
+    /**
      * Executes the command to delete a task.
      * Validates the task index and removes the task from the task list.
      *
@@ -36,29 +77,12 @@ public class DeleteCommand extends Command {
         assert taskList != null : "TaskList cannot be null";
         assert ui != null : "Ui cannot be null";
         assert storage != null : "Storage cannot be null";
-        StringBuilder response = new StringBuilder();
-        try {
-            this.taskIndex = Integer.parseInt(input.split(" ")[SPLIT_INDEX]);
-        } catch (Exception e) {
-            response.append("Error: Invalid delete command. Use: delete <task_number>");
-            return response.toString();
-        }
-        boolean isWithinSize = taskIndex <= EMPTY_INDEX;
-        boolean isMoreThanSize = taskIndex > taskList.size();
-        boolean isValidIndex = isWithinSize || isMoreThanSize;
-        if (isValidIndex) {
-            response.append("Error: Invalid task index.");
-        } else {
-            Task task = taskList.removeTask(taskIndex - ONE_INDEX);
-            response.append("Noted. I've removed this task:\n").append(task).append("\nNow you have ")
-                    .append(taskList.size()).append(" tasks in the list.");
 
-            try {
-                storage.saveTasks(taskList.getTasks());
-            } catch (Exception e) {
-                response.append("Error: Failed to save tasks: ").append(e.getMessage());
-            }
+        taskIndex = parseTaskIndex();
+        if (!isValidTaskIndex(taskList)) {
+            return "Error: Invalid task index.";
         }
-        return response.toString();
+
+        return deleteTask(taskList, storage);
     }
 }

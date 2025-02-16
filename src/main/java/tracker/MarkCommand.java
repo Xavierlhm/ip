@@ -18,6 +18,41 @@ public class MarkCommand extends Command {
      */
     public MarkCommand(String input) throws TrackerException {
         this.input = input;
+        this.taskIndex = extractTaskIndex();
+    }
+
+    /**
+     * Extracts and validates the task index from the user input.
+     *
+     * @return The validated task index.
+     * @throws TrackerException If the index is invalid.
+     */
+    private int extractTaskIndex() throws TrackerException {
+        try {
+            int index = Integer.parseInt(input.split(" ")[SPLIT_INDEX]);
+            boolean isWithinSize = index <= EMPTY_INDEX;
+            if (isWithinSize) {
+                throw new TrackerException("Error: Task index must be greater than zero.");
+            }
+            return index;
+        } catch (Exception e) {
+            throw new TrackerException("Error: Invalid mark command. Use: mark <task_number>");
+        }
+    }
+
+    /**
+     * Retrieves the task to be marked.
+     *
+     * @param taskList The task list containing the task.
+     * @return The task to be marked as done.
+     * @throws TrackerException If the index is out of bounds.
+     */
+    private Task retrieveTask(TaskList taskList) throws TrackerException {
+        boolean isMoreThanSize = taskIndex > taskList.size();
+        if (isMoreThanSize) {
+            throw new TrackerException("Error: Task index is out of bounds.");
+        }
+        return taskList.getTask(taskIndex - ONE_INDEX);
     }
 
     /**
@@ -31,29 +66,22 @@ public class MarkCommand extends Command {
      */
     @Override
     public String execute(TaskList taskList, Ui ui, Storage storage) throws TrackerException {
-        StringBuilder response = new StringBuilder();
-        try {
-            this.taskIndex = Integer.parseInt(input.split(" ")[SPLIT_INDEX]);
-        } catch (Exception e) {
-            response.append("Error: Invalid mark command. Use: mark <task_number>");
-            return response.toString();
-        }
-        boolean isWithinSize = taskIndex <= EMPTY_INDEX;
-        boolean isMoreThanSize = taskIndex > taskList.size();
-        boolean isValidIndex = isWithinSize || isMoreThanSize;
-        if (isValidIndex) {
-            response.append("Error: Invalid task index.");
-        } else {
-            Task task = taskList.getTask(taskIndex - ONE_INDEX);
-            task.markAsDone();
-            response.append("Nice! I've marked this task as done:\n").append(task);
+        assert taskList != null : "TaskList cannot be null";
+        assert ui != null : "Ui cannot be null";
+        assert storage != null : "Storage cannot be null";
 
-            try {
-                storage.saveTasks(taskList.getTasks());
-            } catch (Exception e) {
-                response.append("Error: Failed to save tasks: ").append(e.getMessage());
-            }
+        StringBuilder response = new StringBuilder();
+        Task task = retrieveTask(taskList);
+
+        task.markAsDone();
+        response.append("Nice! I've marked this task as done:\n").append(task);
+
+        try {
+            storage.saveTasks(taskList.getTasks());
+        } catch (Exception e) {
+            response.append("Error: Failed to save tasks: ").append(e.getMessage());
         }
+
         return response.toString();
     }
 }

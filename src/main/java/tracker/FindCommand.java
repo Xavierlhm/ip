@@ -1,5 +1,7 @@
 package tracker;
 
+import java.util.stream.Collectors;
+
 /**
  * Filters tasks based on a search keyword and displays matching tasks.
  */
@@ -17,14 +19,33 @@ public class FindCommand extends Command {
      */
     public FindCommand(String input) throws TrackerException {
         String[] parts = input.split(" ", SPLIT_INDEX);
-        boolean isLessThanLimit = parts.length < MAX_SIZE;
-        boolean isMoreThanLimit = parts.length >= MAX_SIZE;
-        boolean isKeywordEmpty = isMoreThanLimit && parts[SECOND_PART].trim().isEmpty();
-        boolean isValidCommand = isLessThanLimit || isKeywordEmpty;
-        if (isValidCommand) {
+        if (!validateKeyword(parts)) {
             throw new TrackerException("Error: Find command must include a keyword. Use: find <keyword>");
         }
         this.keyword = parts[SECOND_PART].trim();
+    }
+
+    /**
+     * @param parts The input.
+     * @return If the input is valid.
+     */
+    private boolean validateKeyword(String[] parts) {
+        boolean isMoreThanLimit = parts.length >= MAX_SIZE;
+        boolean isKeywordEmpty = isMoreThanLimit && !parts[SECOND_PART].trim().isEmpty();
+        return isMoreThanLimit && isKeywordEmpty;
+    }
+
+    /**
+     * @param taskList The task list to search.
+     * @return The matching tasks.
+     */
+    private String searchTasks(TaskList taskList) {
+        String result = taskList.getTasks().stream()
+                .filter(task -> task.description.contains(keyword))
+                .map(task -> (taskList.getTasks().indexOf(task) + 1) + ". " + task)
+                .collect(Collectors.joining("\n"));
+
+        return result.isEmpty() ? "No matching tasks found." : "Here are the matching tasks in your list:\n" + result;
     }
 
     /**
@@ -37,13 +58,6 @@ public class FindCommand extends Command {
      */
     @Override
     public String execute(TaskList taskList, Ui ui, Storage storage) {
-        StringBuilder response = new StringBuilder("Here are the matching tasks in your list:");
-        String tasks = taskList.getTasks().stream()
-                .filter(task -> task.description.contains(keyword))
-                .map(task -> (taskList.getTasks().indexOf(task) + 1) + ". " + task)
-                .reduce((a, b) -> a + "\n" + b)
-                .orElse("No matching tasks found.");
-        response.append("\n").append(tasks);
-        return response.toString();
+        return searchTasks(taskList);
     }
 }

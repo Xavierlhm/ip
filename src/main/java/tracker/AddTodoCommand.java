@@ -36,6 +36,10 @@ public class AddTodoCommand extends Command {
         return description;
     }
 
+    /**
+     * @param taskList The task list to add the task to.
+     * @return The task.
+     */
     private Task createTodoTask(TaskList taskList) {
         Task task = new Todo(description);
         assert task != null : "Failed to create Todo task";

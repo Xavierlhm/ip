@@ -133,3 +133,11 @@ Command Usage: `bye`
 ## Editing of Data File
 * As the data is saved as a text file, it is possible for the user to manually edit the file.
 * **Warning:** If the text file is modified incorrectly (e.g. wrong convention), the application chatbot may fail to load the data properly. 
+
+## FAQ
+
+**Q:** Can I transfer the data to another computer?
+
+**A:** Yes you can! Simply download the application by following the steps mentioned in the **_Installation_** section above and copy the **_Tracker.txt_** file over to the new computer.
+
+**Note:** Remember to store the **_Tracker.txt_** file in the **_C:\Documents_** folder so that the application chatbot can load the tasks!

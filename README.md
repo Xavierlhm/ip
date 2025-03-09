@@ -22,6 +22,19 @@ Ensure that you have:
 
 ## Command Guide
 
+### Adding todos
+
+Todo tasks do not need dates.
+
+Command Usage: `todo <description>`
+
+Example: `todo eat`
+
+Example Output:
+```
+eat
+```
+
 ### Adding deadlines
 
 Deadline tasks includes a deadline that the user has to take note of.
@@ -46,19 +59,6 @@ Example: `event project /from 2025-02-03 1800 /to 2025-02-03 1900`
 Example Output:
 ```
 project (from: Feb 03 2025, 6:00pm to: Feb 03 2025, 7:00pm)
-```
-
-### Adding todos
-
-Todo tasks do not need dates.
-
-Command Usage: `todo <description>`
-
-Example: `todo eat`
-
-Example Output:
-```
-eat
 ```
 
 ### Mark Tasks

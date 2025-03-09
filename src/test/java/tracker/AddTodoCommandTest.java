@@ -25,7 +25,7 @@ public class AddTodoCommandTest {
     }
 
     @Test
-    public void execute_emptyDescription_throwsException() {
+    public void execute_emptyDescription_throwsException() throws TrackerException {
         TaskList taskList = new TaskList(new ArrayList<>());
         Ui ui = new Ui();
         Storage storage = new Storage("testTasks.txt");
